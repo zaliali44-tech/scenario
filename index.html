@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stratos Scenario Lab</title>
+  <title>Stratos Scenario Lab - Final</title>
   <style>
     :root{
       --bg:#eef3f8;
       --panel:#ffffff;
-      --panel-soft:#f7fafe;
       --section-head:#f3f7fc;
       --border:#d9e3ef;
       --border-strong:#c7d5e6;
@@ -28,42 +27,27 @@
       --red-soft:#fdeceb;
 
       --shadow:0 8px 24px rgba(15, 34, 58, 0.06);
-      --radius-xl:14px;
-      --radius-lg:12px;
-      --radius-md:10px;
-      --radius-sm:8px;
     }
 
     *{box-sizing:border-box}
     html,body{
       margin:0;
       padding:0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
       background:var(--bg);
       color:var(--text);
     }
 
-    body{
-      padding:28px 18px 42px;
-    }
+    body{padding:28px 18px 42px}
+    .app{max-width:1380px;margin:0 auto}
 
-    .app{
-      max-width:1320px;
-      margin:0 auto;
-    }
-
-    .page-header{
-      text-align:center;
-      margin-bottom:16px;
-    }
-
+    .page-header{text-align:center;margin-bottom:16px}
     .page-title{
       margin:0;
       font-size:24px;
       font-weight:800;
       letter-spacing:-0.02em;
     }
-
     .page-subtitle{
       margin-top:6px;
       font-size:13px;
@@ -91,22 +75,28 @@
       transition:.16s ease;
       line-height:1.2;
     }
-
     .btn:hover{
       background:#2566d3;
       border-color:#2566d3;
       transform:translateY(-1px);
     }
-
     .btn.secondary{
       background:#fff;
       color:var(--text);
       border:1px solid var(--border-strong);
     }
-
     .btn.secondary:hover{
       background:#f7fbff;
       border-color:#b8c9de;
+    }
+    .btn.danger{
+      background:#fff5f5;
+      color:var(--red);
+      border:1px solid #f2c4c1;
+    }
+    .btn.danger:hover{
+      background:#fdeceb;
+      border-color:#e59d99;
     }
 
     .hero-grid{
@@ -197,7 +187,7 @@
 
     .workspace{
       display:grid;
-      grid-template-columns:330px minmax(0, 1fr) 290px;
+      grid-template-columns:390px minmax(0, 1fr) 300px;
       gap:16px;
       align-items:start;
     }
@@ -232,14 +222,8 @@
       color:var(--muted);
     }
 
-    .panel-body{
-      padding:14px;
-    }
-
-    .sticky{
-      position:sticky;
-      top:14px;
-    }
+    .panel-body{padding:14px}
+    .sticky{position:sticky;top:14px}
 
     .section{
       background:#fff;
@@ -249,9 +233,7 @@
       margin-bottom:12px;
     }
 
-    .section:last-child{
-      margin-bottom:0;
-    }
+    .section:last-child{margin-bottom:0}
 
     .section-head{
       background:var(--section-head);
@@ -277,10 +259,7 @@
       color:var(--muted);
     }
 
-    .section-body{
-      padding:14px;
-      background:#fff;
-    }
+    .section-body{padding:14px;background:#fff}
 
     .field-grid{
       display:grid;
@@ -295,9 +274,7 @@
       min-width:0;
     }
 
-    .field.full{
-      grid-column:1 / -1;
-    }
+    .field.full{grid-column:1 / -1}
 
     .field label{
       font-size:12px;
@@ -306,7 +283,8 @@
     }
 
     .field input,
-    .field select{
+    .field select,
+    .field textarea{
       width:100%;
       min-width:0;
       padding:10px 12px;
@@ -317,10 +295,18 @@
       outline:none;
       font-size:14px;
       transition:.16s ease;
+      font-family:inherit;
+    }
+
+    .field textarea{
+      resize:vertical;
+      min-height:120px;
+      line-height:1.45;
     }
 
     .field input:focus,
-    .field select:focus{
+    .field select:focus,
+    .field textarea:focus{
       border-color:#8bb5ff;
       box-shadow:0 0 0 3px rgba(53,122,232,.12);
     }
@@ -338,10 +324,7 @@
       padding:12px;
       margin-bottom:12px;
     }
-
-    .scenario-row:last-child{
-      margin-bottom:0;
-    }
+    .scenario-row:last-child{margin-bottom:0}
 
     .scenario-top{
       display:flex;
@@ -518,9 +501,7 @@
       white-space:nowrap;
     }
 
-    .metric-list{
-      padding:8px 14px 12px;
-    }
+    .metric-list{padding:8px 14px 12px}
 
     .metric-row{
       display:grid;
@@ -530,9 +511,7 @@
       border-bottom:1px dashed #d8e3f0;
     }
 
-    .metric-row:last-child{
-      border-bottom:none;
-    }
+    .metric-row:last-child{border-bottom:none}
 
     .metric-name{
       font-size:13px;
@@ -546,6 +525,8 @@
       font-size:14px;
       font-weight:800;
       text-align:right;
+      flex-wrap:wrap;
+      justify-content:flex-end;
     }
 
     .mini-delta{
@@ -556,24 +537,11 @@
       white-space:nowrap;
     }
 
-    .mini-delta.good{
-      color:var(--green);
-      background:var(--green-soft);
-    }
+    .mini-delta.good{color:var(--green);background:var(--green-soft)}
+    .mini-delta.warn{color:var(--amber);background:var(--amber-soft)}
+    .mini-delta.bad{color:var(--red);background:var(--red-soft)}
 
-    .mini-delta.warn{
-      color:var(--amber);
-      background:var(--amber-soft);
-    }
-
-    .mini-delta.bad{
-      color:var(--red);
-      background:var(--red-soft);
-    }
-
-    .scroll-section{
-      margin-bottom:12px;
-    }
+    .scroll-section{margin-bottom:12px}
 
     .scroll-header{
       display:flex;
@@ -641,10 +609,7 @@
       user-select:none;
     }
 
-    .scroll-track::-webkit-scrollbar{
-      height:6px;
-    }
-
+    .scroll-track::-webkit-scrollbar{height:6px}
     .scroll-track::-webkit-scrollbar-thumb{
       background:#c9d7e6;
       border-radius:10px;
@@ -662,7 +627,7 @@
       border-radius:12px;
       padding:14px;
       min-height:138px;
-      width:180px;
+      width:190px;
       flex:0 0 auto;
       overflow:hidden;
     }
@@ -699,21 +664,10 @@
       overflow:hidden;
     }
 
-    .chart-card{
-      flex:0 0 auto;
-    }
-
-    .chart-card.wide{
-      width:420px;
-    }
-
-    .chart-card.medium{
-      width:320px;
-    }
-
-    .chart-card.gauge-card{
-      width:340px;
-    }
+    .chart-card{flex:0 0 auto}
+    .chart-card.wide{width:420px}
+    .chart-card.medium{width:320px}
+    .chart-card.gauge-card{width:340px}
 
     .chart-head,
     .info-head{
@@ -765,6 +719,7 @@
       width:100%;
       border-radius:10px 10px 5px 5px;
       background:linear-gradient(180deg, #7fb0ff, #357ae8);
+      transition:height .25s ease;
     }
 
     .wf-bar.negative{
@@ -797,7 +752,7 @@
 
     .bar-row{
       display:grid;
-      grid-template-columns:110px minmax(0,1fr) 52px;
+      grid-template-columns:110px minmax(0,1fr) 64px;
       gap:12px;
       align-items:center;
     }
@@ -820,6 +775,7 @@
       height:100%;
       border-radius:999px;
       background:linear-gradient(90deg, #6ca3ff, #357ae8);
+      transition:width .25s ease;
     }
 
     .bar-fill.alt{
@@ -879,6 +835,7 @@
       transform-origin:bottom center;
       border-radius:999px;
       z-index:2;
+      transition:transform .25s ease;
     }
 
     .needle::after{
@@ -916,9 +873,7 @@
       line-height:1.35;
     }
 
-    .table-wrap{
-      overflow:auto;
-    }
+    .table-wrap{overflow:auto}
 
     table{
       width:100%;
@@ -942,9 +897,7 @@
       font-weight:800;
     }
 
-    tr:last-child td{
-      border-bottom:none;
-    }
+    tr:last-child td{border-bottom:none}
 
     .glossary-grid{
       display:grid;
@@ -1059,13 +1012,8 @@
       color:var(--muted);
     }
 
-    .right-card{
-      margin-bottom:12px;
-    }
-
-    .right-card:last-child{
-      margin-bottom:0;
-    }
+    .right-card{margin-bottom:12px}
+    .right-card:last-child{margin-bottom:0}
 
     .right-head{
       padding:12px 14px;
@@ -1079,9 +1027,7 @@
       font-weight:800;
     }
 
-    .right-body{
-      padding:14px;
-    }
+    .right-body{padding:14px}
 
     .right-body p{
       margin:0;
@@ -1120,73 +1066,169 @@
       color:var(--soft);
     }
 
+    .tiny-note{
+      font-size:11px;
+      color:var(--soft);
+      line-height:1.45;
+    }
+
+    .hidden{display:none !important}
+
+    .interval-tools{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:10px;
+      margin-bottom:10px;
+    }
+
+    .interval-table-card{
+      margin-top:12px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      overflow:hidden;
+      background:#fff;
+    }
+
+    .interval-table-head{
+      padding:10px 12px;
+      border-bottom:1px solid var(--border);
+      background:var(--section-head);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+    }
+
+    .interval-table-head strong{
+      font-size:13px;
+    }
+
+    .interval-table-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+    }
+
+    .mini-btn{
+      border:1px solid var(--border-strong);
+      background:#fff;
+      color:var(--text);
+      padding:6px 8px;
+      border-radius:6px;
+      font-size:11px;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .mini-btn:hover{
+      background:#f7fbff;
+    }
+
+    .interval-editor{
+      width:100%;
+      overflow:auto;
+    }
+
+    .interval-editor table{
+      width:100%;
+      min-width:520px;
+      border-collapse:collapse;
+    }
+
+    .interval-editor th,
+    .interval-editor td{
+      padding:8px;
+      border-bottom:1px solid var(--border);
+      font-size:12px;
+      vertical-align:middle;
+    }
+
+    .interval-editor th{
+      background:#f8fbff;
+      text-transform:none;
+      letter-spacing:0;
+      color:#425973;
+    }
+
+    .interval-editor input{
+      width:100%;
+      padding:8px 8px;
+      border:1px solid var(--border-strong);
+      border-radius:6px;
+      font-size:12px;
+    }
+
+    .interval-editor .row-delete{
+      width:auto;
+      padding:6px 8px;
+      border-radius:6px;
+      border:1px solid #f2c4c1;
+      background:#fff5f5;
+      color:var(--red);
+      font-size:11px;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .interval-summary{
+      display:grid;
+      grid-template-columns:repeat(4, 1fr);
+      gap:8px;
+      margin-top:10px;
+    }
+
+    .interval-summary-card{
+      border:1px solid var(--border);
+      border-radius:10px;
+      padding:10px;
+      background:#f8fbff;
+    }
+
+    .interval-summary-card .small-label{
+      font-size:10px;
+      text-transform:uppercase;
+      color:var(--muted);
+      font-weight:800;
+      letter-spacing:.05em;
+    }
+
+    .interval-summary-card .small-value{
+      margin-top:6px;
+      font-size:16px;
+      font-weight:800;
+    }
+
     @media (max-width: 1280px){
-      .hero-grid{
-        grid-template-columns:repeat(3, 1fr);
-      }
+      .hero-grid{grid-template-columns:repeat(3, 1fr)}
     }
 
     @media (max-width: 1120px){
-      .workspace{
-        grid-template-columns:1fr;
-      }
-      .sticky{
-        position:static;
-      }
-      .comparison-grid{
-        grid-template-columns:1fr;
-      }
+      .workspace{grid-template-columns:1fr}
+      .sticky{position:static}
+      .comparison-grid{grid-template-columns:1fr}
     }
 
     @media (max-width: 900px){
-      .glossary-grid{
-        grid-template-columns:1fr;
-      }
+      .glossary-grid{grid-template-columns:1fr}
+      .interval-summary{grid-template-columns:repeat(2,1fr)}
     }
 
     @media (max-width: 860px){
-      .hero-grid{
-        grid-template-columns:repeat(2, 1fr);
-      }
-      .field-grid,
-      .preset-grid{
-        grid-template-columns:1fr;
-      }
+      .hero-grid{grid-template-columns:repeat(2, 1fr)}
+      .field-grid,.preset-grid{grid-template-columns:1fr}
     }
 
     @media (max-width: 620px){
-      .hero-grid{
-        grid-template-columns:1fr;
-      }
-
-      .scenario-controls{
-        grid-template-columns:1fr;
-      }
-
-      .bar-row{
-        grid-template-columns:1fr;
-      }
-
-      .metric .value{
-        font-size:23px;
-      }
-
-      .metric .value.sm{
-        font-size:18px;
-      }
-
-      .page-title{
-        font-size:22px;
-      }
-
-      .scroll-header{
-        align-items:flex-start;
-        flex-direction:column;
-      }
-
-      .scroll-controls{
-        align-self:flex-end;
-      }
+      .hero-grid{grid-template-columns:1fr}
+      .scenario-controls{grid-template-columns:1fr}
+      .bar-row{grid-template-columns:1fr}
+      .metric .value{font-size:23px}
+      .metric .value.sm{font-size:18px}
+      .page-title{font-size:22px}
+      .scroll-header{align-items:flex-start;flex-direction:column}
+      .scroll-controls{align-self:flex-end}
+      .interval-summary{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -1195,14 +1237,14 @@
     <div class="page-header">
       <h1 class="page-title">Stratos Scenario Lab</h1>
       <div class="page-subtitle">
-        Compare baseline vs scenario for volume, AHT, shrinkage, HC, SLA risk, and cost impact using the same premium light toolkit style.
+        Multi-engine WFM What-If Simulation Engine with Quick Planning, Interval Based, Erlang Style, and true interval upload plus table editing support.
       </div>
       <div class="top-actions">
-        <button class="btn secondary">Save Scenario</button>
-        <button class="btn secondary">Load Example</button>
-        <button class="btn secondary">Reset</button>
-        <button class="btn">Export PDF</button>
-        <button class="btn">Export PPT</button>
+        <button class="btn secondary" id="saveScenarioBtn">Save Scenario</button>
+        <button class="btn secondary" id="loadExampleBtn">Load Example</button>
+        <button class="btn secondary" id="resetBtn">Reset</button>
+        <button class="btn" id="exportPdfBtn">Export PDF</button>
+        <button class="btn" id="exportPptBtn">Export PPT</button>
       </div>
     </div>
 
@@ -1210,17 +1252,17 @@
       <div class="hero-card primary">
         <div class="label">Executive Summary</div>
         <div class="metric">
-          <div class="value sm">High Risk</div>
-          <div class="delta warn">Scenario Active</div>
+          <div class="value sm" id="heroRiskText">High Risk</div>
+          <div class="delta warn" id="heroScenarioBadge">Scenario Active</div>
         </div>
-        <div class="subtext">Demand and handling pressure are increasing required staffing while reducing projected SLA.</div>
+        <div class="subtext" id="heroSummaryText">Scenario summary will update automatically based on the selected engine.</div>
       </div>
 
       <div class="hero-card">
         <div class="label">Baseline SLA</div>
         <div class="metric">
-          <div class="value">82.4%</div>
-          <div class="delta good">Stable</div>
+          <div class="value" id="heroBaselineSla">82.4%</div>
+          <div class="delta good" id="heroBaselineBadge">Stable</div>
         </div>
         <div class="subtext">Current assumptions are operating close to service target.</div>
       </div>
@@ -1228,8 +1270,8 @@
       <div class="hero-card">
         <div class="label">Scenario SLA</div>
         <div class="metric">
-          <div class="value">76.1%</div>
-          <div class="delta bad">-6.3 pts</div>
+          <div class="value" id="heroScenarioSla">76.1%</div>
+          <div class="delta bad" id="heroScenarioSlaDelta">-6.3 pts</div>
         </div>
         <div class="subtext">Projected service drop under scenario conditions.</div>
       </div>
@@ -1237,8 +1279,8 @@
       <div class="hero-card">
         <div class="label">HC Gap</div>
         <div class="metric">
-          <div class="value">+16</div>
-          <div class="delta bad">Required</div>
+          <div class="value" id="heroHcGap">+16</div>
+          <div class="delta bad" id="heroHcGapBadge">Required</div>
         </div>
         <div class="subtext">Extra productive HC needed to protect target SLA.</div>
       </div>
@@ -1246,8 +1288,8 @@
       <div class="hero-card">
         <div class="label">Cost Impact</div>
         <div class="metric">
-          <div class="value">+$35.2k</div>
-          <div class="delta bad">Monthly</div>
+          <div class="value" id="heroCostImpact">+$35.2k</div>
+          <div class="delta bad" id="heroCostBadge">Monthly</div>
         </div>
         <div class="subtext">Estimated monthly impact if staffing is added.</div>
       </div>
@@ -1255,10 +1297,10 @@
       <div class="hero-card">
         <div class="label">Recommended Action</div>
         <div class="metric">
-          <div class="value sm">Add HC / Reduce AHT</div>
+          <div class="value sm" id="heroRecommendedAction">Add HC / Reduce AHT</div>
           <div class="delta warn">Priority</div>
         </div>
-        <div class="subtext">Best short path is to recover staffing or improve efficiency by at least 15 seconds AHT.</div>
+        <div class="subtext" id="heroRecommendedText">Best short path is to recover staffing or improve efficiency by at least 15 seconds AHT.</div>
       </div>
     </section>
 
@@ -1267,180 +1309,433 @@
         <div class="panel-header">
           <div>
             <h2 class="panel-title">Scenario Configuration</h2>
-            <div class="panel-subtitle">Adjust baseline and simulate changes</div>
+            <div class="panel-subtitle">Switch engines and simulate changes</div>
           </div>
-          <button class="btn">Run</button>
+          <button class="btn" id="runBtn">Run</button>
         </div>
 
         <div class="panel-body">
           <div class="section">
             <div class="section-head">
-              <h4>Baseline Assumptions</h4>
-              <span>Current State</span>
+              <h4>Calculation Engine</h4>
+              <span>Mode</span>
             </div>
             <div class="section-body">
               <div class="field-grid">
-                <div class="field">
-                  <label>Forecast Volume</label>
-                  <input type="number" value="12500">
-                  <div class="hint">Total contacts for selected planning view.</div>
-                </div>
-                <div class="field">
-                  <label>AHT (sec)</label>
-                  <input type="number" value="420">
-                  <div class="hint">Average handling time.</div>
-                </div>
-                <div class="field">
-                  <label>Shrinkage (%)</label>
-                  <input type="number" value="28">
-                  <div class="hint">Planned and unplanned loss.</div>
-                </div>
-                <div class="field">
-                  <label>Available HC</label>
-                  <input type="number" value="145">
-                  <div class="hint">Current productive headcount.</div>
-                </div>
-                <div class="field">
-                  <label>SLA Target (%)</label>
-                  <input type="number" value="80">
-                  <div class="hint">Service level goal.</div>
-                </div>
-                <div class="field">
-                  <label>Occupancy (%)</label>
-                  <input type="number" value="85">
-                  <div class="hint">Operating occupancy target.</div>
-                </div>
                 <div class="field full">
-                  <label>Planning View</label>
-                  <select>
-                    <option selected>Monthly</option>
-                    <option>Weekly</option>
-                    <option>Daily</option>
-                    <option>Interval</option>
+                  <label>Engine</label>
+                  <select id="engineSelector">
+                    <option value="quick" selected>Quick Planning</option>
+                    <option value="interval">Interval Based</option>
+                    <option value="erlang">Erlang Style</option>
                   </select>
-                </div>
-                <div class="field full">
-                  <label>Cost per HC</label>
-                  <input type="number" value="2200">
-                  <div class="hint">Used for cost impact modelling.</div>
+                  <div class="hint">
+                    Quick Planning is best for leadership and high-level planning. Interval Based is best for interval demand analysis. Erlang Style is best for queue staffing accuracy.
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="section">
-            <div class="section-head">
-              <h4>Scenario Inputs</h4>
-              <span>What-If</span>
+          <!-- QUICK ENGINE -->
+          <div id="engineQuick">
+            <div class="section">
+              <div class="section-head">
+                <h4>Baseline Assumptions</h4>
+                <span>Quick Planning</span>
+              </div>
+              <div class="section-body">
+                <div class="field-grid">
+                  <div class="field">
+                    <label>Forecast Volume</label>
+                    <input type="number" id="baseVolume" value="12500" min="0" step="1">
+                  </div>
+                  <div class="field">
+                    <label>AHT (sec)</label>
+                    <input type="number" id="baseAht" value="420" min="1" step="1">
+                  </div>
+                  <div class="field">
+                    <label>Shrinkage (%)</label>
+                    <input type="number" id="baseShrinkage" value="28" min="0" max="95" step="0.1">
+                  </div>
+                  <div class="field">
+                    <label>Available HC</label>
+                    <input type="number" id="baseHc" value="145" min="0" step="1">
+                  </div>
+                  <div class="field">
+                    <label>SLA Target (%)</label>
+                    <input type="number" id="baseSlaTarget" value="80" min="1" max="100" step="0.1">
+                  </div>
+                  <div class="field">
+                    <label>Occupancy (%)</label>
+                    <input type="number" id="baseOccupancy" value="85" min="1" max="100" step="0.1">
+                  </div>
+                  <div class="field full">
+                    <label>Planning View</label>
+                    <select id="planningView">
+                      <option value="monthly" selected>Monthly</option>
+                      <option value="weekly">Weekly</option>
+                      <option value="daily">Daily</option>
+                    </select>
+                  </div>
+                  <div class="field full">
+                    <label>Cost per HC</label>
+                    <input type="number" id="baseCostPerHc" value="2200" min="0" step="0.01">
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="section-body">
-              <div class="scenario-row">
-                <div class="scenario-top">
-                  <div class="scenario-name">Volume</div>
-                  <div class="baseline-pill">Baseline: 12,500</div>
+
+            <div class="section">
+              <div class="section-head">
+                <h4>Scenario Inputs</h4>
+                <span>What-If</span>
+              </div>
+              <div class="section-body">
+                <div class="scenario-row">
+                  <div class="scenario-top">
+                    <div class="scenario-name">Volume</div>
+                    <div class="baseline-pill" id="baselineVolumePill">Baseline: 12,500</div>
+                  </div>
+                  <div class="inline-pills">
+                    <div class="pill active" data-metric="volume" data-mode="absolute">Absolute</div>
+                    <div class="pill" data-metric="volume" data-mode="percent">%</div>
+                  </div>
+                  <div class="scenario-controls">
+                    <input type="number" id="scenarioVolumeInput" value="13500" step="1">
+                    <input type="text" id="scenarioVolumeDelta" value="+8.0%" readonly>
+                  </div>
                 </div>
-                <div class="inline-pills">
-                  <div class="pill active">Absolute</div>
-                  <div class="pill">%</div>
+
+                <div class="scenario-row">
+                  <div class="scenario-top">
+                    <div class="scenario-name">AHT</div>
+                    <div class="baseline-pill" id="baselineAhtPill">Baseline: 420 sec</div>
+                  </div>
+                  <div class="inline-pills">
+                    <div class="pill active" data-metric="aht" data-mode="absolute">Absolute</div>
+                    <div class="pill" data-metric="aht" data-mode="delta">Delta</div>
+                  </div>
+                  <div class="scenario-controls">
+                    <input type="number" id="scenarioAhtInput" value="445" step="1">
+                    <input type="text" id="scenarioAhtDelta" value="+25 sec" readonly>
+                  </div>
                 </div>
-                <div class="scenario-controls">
-                  <input type="number" value="13500">
-                  <input type="text" value="+8.0%">
+
+                <div class="scenario-row">
+                  <div class="scenario-top">
+                    <div class="scenario-name">Shrinkage</div>
+                    <div class="baseline-pill" id="baselineShrinkagePill">Baseline: 28%</div>
+                  </div>
+                  <div class="inline-pills">
+                    <div class="pill active" data-metric="shrinkage" data-mode="absolute">Absolute</div>
+                    <div class="pill" data-metric="shrinkage" data-mode="delta">Delta</div>
+                  </div>
+                  <div class="scenario-controls">
+                    <input type="number" id="scenarioShrinkageInput" value="31" step="0.1">
+                    <input type="text" id="scenarioShrinkageDelta" value="+3 pts" readonly>
+                  </div>
+                </div>
+
+                <div class="scenario-row">
+                  <div class="scenario-top">
+                    <div class="scenario-name">Available HC</div>
+                    <div class="baseline-pill" id="baselineHcPill">Baseline: 145</div>
+                  </div>
+                  <div class="inline-pills">
+                    <div class="pill active" data-metric="hc" data-mode="absolute">Absolute</div>
+                    <div class="pill" data-metric="hc" data-mode="delta">Delta</div>
+                  </div>
+                  <div class="scenario-controls">
+                    <input type="number" id="scenarioHcInput" value="145" step="1">
+                    <input type="text" id="scenarioHcDelta" value="0" readonly>
+                  </div>
+                </div>
+
+                <div class="scenario-row">
+                  <div class="scenario-top">
+                    <div class="scenario-name">Cost per HC</div>
+                    <div class="baseline-pill" id="baselineCostPill">Baseline: 2,200</div>
+                  </div>
+                  <div class="inline-pills">
+                    <div class="pill active" data-metric="cost" data-mode="absolute">Absolute</div>
+                    <div class="pill" data-metric="cost" data-mode="delta">Delta</div>
+                  </div>
+                  <div class="scenario-controls">
+                    <input type="number" id="scenarioCostInput" value="2200" step="0.01">
+                    <input type="text" id="scenarioCostDelta" value="0" readonly>
+                  </div>
                 </div>
               </div>
+            </div>
 
-              <div class="scenario-row">
-                <div class="scenario-top">
-                  <div class="scenario-name">AHT</div>
-                  <div class="baseline-pill">Baseline: 420 sec</div>
-                </div>
-                <div class="inline-pills">
-                  <div class="pill active">Absolute</div>
-                  <div class="pill">Delta</div>
-                </div>
-                <div class="scenario-controls">
-                  <input type="number" value="445">
-                  <input type="text" value="+25 sec">
-                </div>
+            <div class="section">
+              <div class="section-head">
+                <h4>Quick Scenario Presets</h4>
+                <span>Fast Start</span>
               </div>
-
-              <div class="scenario-row">
-                <div class="scenario-top">
-                  <div class="scenario-name">Shrinkage</div>
-                  <div class="baseline-pill">Baseline: 28%</div>
-                </div>
-                <div class="inline-pills">
-                  <div class="pill active">Absolute</div>
-                  <div class="pill">Delta</div>
-                </div>
-                <div class="scenario-controls">
-                  <input type="number" value="31">
-                  <input type="text" value="+3 pts">
-                </div>
-              </div>
-
-              <div class="scenario-row">
-                <div class="scenario-top">
-                  <div class="scenario-name">Available HC</div>
-                  <div class="baseline-pill">Baseline: 145</div>
-                </div>
-                <div class="inline-pills">
-                  <div class="pill active">Absolute</div>
-                  <div class="pill">Delta</div>
-                </div>
-                <div class="scenario-controls">
-                  <input type="number" value="145">
-                  <input type="text" value="0">
-                </div>
-              </div>
-
-              <div class="scenario-row">
-                <div class="scenario-top">
-                  <div class="scenario-name">Cost per HC</div>
-                  <div class="baseline-pill">Baseline: 2,200</div>
-                </div>
-                <div class="inline-pills">
-                  <div class="pill active">Absolute</div>
-                  <div class="pill">Delta</div>
-                </div>
-                <div class="scenario-controls">
-                  <input type="number" value="2200">
-                  <input type="text" value="0">
+              <div class="section-body">
+                <div class="preset-grid">
+                  <div class="preset" data-preset="demandSpike">
+                    <strong>Demand Spike</strong>
+                    <span>Volume +12% while HC remains fixed.</span>
+                  </div>
+                  <div class="preset" data-preset="ahtIncrease">
+                    <strong>AHT Increase</strong>
+                    <span>AHT +25 sec from process complexity.</span>
+                  </div>
+                  <div class="preset" data-preset="shrinkageShock">
+                    <strong>Shrinkage Shock</strong>
+                    <span>Shrinkage +5 pts due to absenteeism.</span>
+                  </div>
+                  <div class="preset" data-preset="understaffing">
+                    <strong>Understaffing</strong>
+                    <span>Reduce available HC and test risk.</span>
+                  </div>
+                  <div class="preset" data-preset="efficiencyGain">
+                    <strong>Efficiency Gain</strong>
+                    <span>AHT -15 sec and shrinkage -2 pts.</span>
+                  </div>
+                  <div class="preset" data-preset="hiringBoost">
+                    <strong>Hiring Boost</strong>
+                    <span>Add productive HC to recover SLA.</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="section">
-            <div class="section-head">
-              <h4>Quick Scenario Presets</h4>
-              <span>Fast Start</span>
+          <!-- INTERVAL ENGINE -->
+          <div id="engineInterval" class="hidden">
+            <div class="section">
+              <div class="section-head">
+                <h4>Interval Inputs</h4>
+                <span>Baseline vs Scenario</span>
+              </div>
+              <div class="section-body">
+                <div class="field-grid">
+                  <div class="field">
+                    <label>Interval Size (minutes)</label>
+                    <select id="intervalSize">
+                      <option value="15" selected>15</option>
+                      <option value="30">30</option>
+                      <option value="60">60</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label>Cost per HC</label>
+                    <input type="number" id="intervalCostPerHc" value="2200" min="0" step="0.01">
+                  </div>
+                  <div class="field">
+                    <label>Shrinkage (%)</label>
+                    <input type="number" id="intervalShrinkage" value="28" min="0" max="95" step="0.1">
+                  </div>
+                  <div class="field">
+                    <label>SLA Target (%)</label>
+                    <input type="number" id="intervalSlaTarget" value="80" min="1" max="100" step="0.1">
+                  </div>
+                  <div class="field">
+                    <label>Occupancy Cap (%)</label>
+                    <input type="number" id="intervalOccupancy" value="85" min="1" max="100" step="0.1">
+                  </div>
+                  <div class="field">
+                    <label>Baseline Available HC</label>
+                    <input type="number" id="intervalBaseHc" value="145" min="0" step="1">
+                  </div>
+                  <div class="field">
+                    <label>Scenario Available HC</label>
+                    <input type="number" id="intervalScenarioHc" value="145" min="0" step="1">
+                  </div>
+                </div>
+
+                <div class="field full" style="margin-top:12px;">
+                  <label>Baseline Interval Data</label>
+                  <textarea id="intervalBaseData">09:00,120,360
+09:15,135,360
+09:30,150,370
+09:45,160,380
+10:00,175,390
+10:15,180,390
+10:30,170,380
+10:45,165,375</textarea>
+                  <div class="hint">Format: Interval,Volume,AHT(sec). One row per interval.</div>
+                </div>
+
+                <div class="interval-tools">
+                  <input type="file" id="intervalBaseFile" accept=".csv,.txt" class="hidden">
+                  <button class="btn secondary" id="uploadBaseIntervalBtn">Upload Baseline CSV</button>
+                  <button class="btn secondary" id="loadBaseTextBtn">Load Baseline Text</button>
+                  <button class="btn secondary" id="addBaseRowBtn">Add Baseline Row</button>
+                </div>
+
+                <div class="interval-table-card">
+                  <div class="interval-table-head">
+                    <strong>Baseline Interval Table</strong>
+                    <div class="interval-table-actions">
+                      <button class="mini-btn" id="baselineSortBtn">Sort by Time</button>
+                      <button class="mini-btn" id="baselineSyncBtn">Sync to Text</button>
+                    </div>
+                  </div>
+                  <div class="interval-editor">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Interval</th>
+                          <th>Volume</th>
+                          <th>AHT (sec)</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody id="baselineIntervalTableBody"></tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="interval-summary">
+                  <div class="interval-summary-card">
+                    <div class="small-label">Rows</div>
+                    <div class="small-value" id="baseIntervalRows">0</div>
+                  </div>
+                  <div class="interval-summary-card">
+                    <div class="small-label">Total Volume</div>
+                    <div class="small-value" id="baseIntervalVolume">0</div>
+                  </div>
+                  <div class="interval-summary-card">
+                    <div class="small-label">Avg AHT</div>
+                    <div class="small-value" id="baseIntervalAht">0</div>
+                  </div>
+                  <div class="interval-summary-card">
+                    <div class="small-label">Req HC</div>
+                    <div class="small-value" id="baseIntervalReq">0</div>
+                  </div>
+                </div>
+
+                <div class="field full" style="margin-top:14px;">
+                  <label>Scenario Interval Data</label>
+                  <textarea id="intervalScenarioData">09:00,130,370
+09:15,145,375
+09:30,160,385
+09:45,170,390
+10:00,190,400
+10:15,195,400
+10:30,185,390
+10:45,180,385</textarea>
+                  <div class="hint">Paste changed interval demand for the scenario.</div>
+                </div>
+
+                <div class="interval-tools">
+                  <input type="file" id="intervalScenarioFile" accept=".csv,.txt" class="hidden">
+                  <button class="btn secondary" id="uploadScenarioIntervalBtn">Upload Scenario CSV</button>
+                  <button class="btn secondary" id="loadScenarioTextBtn">Load Scenario Text</button>
+                  <button class="btn secondary" id="addScenarioRowBtn">Add Scenario Row</button>
+                  <button class="btn secondary" id="copyBaseToScenarioBtn">Use Baseline as Scenario</button>
+                </div>
+
+                <div class="interval-table-card">
+                  <div class="interval-table-head">
+                    <strong>Scenario Interval Table</strong>
+                    <div class="interval-table-actions">
+                      <button class="mini-btn" id="scenarioSortBtn">Sort by Time</button>
+                      <button class="mini-btn" id="scenarioSyncBtn">Sync to Text</button>
+                    </div>
+                  </div>
+                  <div class="interval-editor">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Interval</th>
+                          <th>Volume</th>
+                          <th>AHT (sec)</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody id="scenarioIntervalTableBody"></tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="interval-summary">
+                  <div class="interval-summary-card">
+                    <div class="small-label">Rows</div>
+                    <div class="small-value" id="scenarioIntervalRows">0</div>
+                  </div>
+                  <div class="interval-summary-card">
+                    <div class="small-label">Total Volume</div>
+                    <div class="small-value" id="scenarioIntervalVolume">0</div>
+                  </div>
+                  <div class="interval-summary-card">
+                    <div class="small-label">Avg AHT</div>
+                    <div class="small-value" id="scenarioIntervalAht">0</div>
+                  </div>
+                  <div class="interval-summary-card">
+                    <div class="small-label">Req HC</div>
+                    <div class="small-value" id="scenarioIntervalReq">0</div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="section-body">
-              <div class="preset-grid">
-                <div class="preset">
-                  <strong>Demand Spike</strong>
-                  <span>Volume +12% while HC remains fixed.</span>
+          </div>
+
+          <!-- ERLANG ENGINE -->
+          <div id="engineErlang" class="hidden">
+            <div class="section">
+              <div class="section-head">
+                <h4>Erlang Inputs</h4>
+                <span>Queue Model</span>
+              </div>
+              <div class="section-body">
+                <div class="field-grid">
+                  <div class="field">
+                    <label>Interval Contacts (Baseline)</label>
+                    <input type="number" id="erlangBaseContacts" value="180" min="0" step="1">
+                  </div>
+                  <div class="field">
+                    <label>Interval Contacts (Scenario)</label>
+                    <input type="number" id="erlangScenarioContacts" value="210" min="0" step="1">
+                  </div>
+                  <div class="field">
+                    <label>AHT Baseline (sec)</label>
+                    <input type="number" id="erlangBaseAht" value="390" min="1" step="1">
+                  </div>
+                  <div class="field">
+                    <label>AHT Scenario (sec)</label>
+                    <input type="number" id="erlangScenarioAht" value="420" min="1" step="1">
+                  </div>
+                  <div class="field">
+                    <label>Interval Size (minutes)</label>
+                    <select id="erlangIntervalSize">
+                      <option value="15" selected>15</option>
+                      <option value="30">30</option>
+                      <option value="60">60</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label>Answer Time Target (sec)</label>
+                    <input type="number" id="erlangAnsTime" value="20" min="1" step="1">
+                  </div>
+                  <div class="field">
+                    <label>Service Level Target (%)</label>
+                    <input type="number" id="erlangSlaTarget" value="80" min="1" max="100" step="0.1">
+                  </div>
+                  <div class="field">
+                    <label>Shrinkage (%)</label>
+                    <input type="number" id="erlangShrinkage" value="28" min="0" max="95" step="0.1">
+                  </div>
+                  <div class="field">
+                    <label>Baseline Available HC</label>
+                    <input type="number" id="erlangBaseHc" value="16" min="0" step="1">
+                  </div>
+                  <div class="field">
+                    <label>Scenario Available HC</label>
+                    <input type="number" id="erlangScenarioHc" value="16" min="0" step="1">
+                  </div>
+                  <div class="field full">
+                    <label>Cost per HC</label>
+                    <input type="number" id="erlangCostPerHc" value="2200" min="0" step="0.01">
+                  </div>
                 </div>
-                <div class="preset">
-                  <strong>AHT Increase</strong>
-                  <span>AHT +25 sec from process complexity.</span>
-                </div>
-                <div class="preset">
-                  <strong>Shrinkage Shock</strong>
-                  <span>Shrinkage +5 pts due to absenteeism.</span>
-                </div>
-                <div class="preset">
-                  <strong>Understaffing</strong>
-                  <span>Reduce available HC and test risk.</span>
-                </div>
-                <div class="preset">
-                  <strong>Efficiency Gain</strong>
-                  <span>AHT -15 sec and shrinkage -2 pts.</span>
-                </div>
-                <div class="preset">
-                  <strong>Hiring Boost</strong>
-                  <span>Add productive HC to recover SLA.</span>
+                <div class="hint" style="margin-top:10px;">
+                  Erlang Style mode calculates required agents and estimated service level using queueing logic for a single interval view.
                 </div>
               </div>
             </div>
@@ -1454,25 +1749,16 @@
             <div class="section-body">
               <div class="field-grid">
                 <div class="field full">
-                  <label>Calculation Mode</label>
-                  <select>
-                    <option selected>Compare Baseline vs Scenario</option>
-                    <option>HC Impact</option>
-                    <option>SLA Impact</option>
-                    <option>Cost Impact</option>
-                  </select>
-                </div>
-                <div class="field full">
                   <label>Risk Sensitivity</label>
-                  <select>
-                    <option>Conservative</option>
-                    <option selected>Standard</option>
-                    <option>Aggressive</option>
+                  <select id="riskSensitivity">
+                    <option value="0.85">Conservative</option>
+                    <option value="1" selected>Standard</option>
+                    <option value="1.15">Aggressive</option>
                   </select>
                 </div>
                 <div class="field full">
                   <label>Compare Against</label>
-                  <select>
+                  <select id="compareAgainst">
                     <option selected>Baseline</option>
                     <option>Target</option>
                     <option>Budget</option>
@@ -1481,9 +1767,9 @@
               </div>
 
               <div class="stack-actions">
-                <button class="btn">Run Simulation</button>
-                <button class="btn secondary">Swap Baseline & Scenario</button>
-                <button class="btn secondary">Duplicate Scenario</button>
+                <button class="btn" id="runSimulationBtn">Run Simulation</button>
+                <button class="btn secondary" id="swapBtn">Swap Baseline & Scenario</button>
+                <button class="btn secondary" id="duplicateBtn">Duplicate Scenario</button>
               </div>
             </div>
           </div>
@@ -1497,7 +1783,7 @@
             <div class="panel-subtitle">Baseline vs scenario in premium comparison layout</div>
           </div>
           <div class="chip-row">
-            <div class="chip">Baseline Active</div>
+            <div class="chip" id="chipEngine">Quick Planning</div>
             <div class="chip">Scenario #1</div>
             <div class="chip">Executive View</div>
           </div>
@@ -1511,34 +1797,13 @@
                 <div class="status-badge">Current Plan</div>
               </div>
               <div class="metric-list">
-                <div class="metric-row">
-                  <div class="metric-name">Volume</div>
-                  <div class="metric-val">12,500</div>
-                </div>
-                <div class="metric-row">
-                  <div class="metric-name">AHT</div>
-                  <div class="metric-val">420 sec</div>
-                </div>
-                <div class="metric-row">
-                  <div class="metric-name">Shrinkage</div>
-                  <div class="metric-val">28%</div>
-                </div>
-                <div class="metric-row">
-                  <div class="metric-name">Available HC</div>
-                  <div class="metric-val">145</div>
-                </div>
-                <div class="metric-row">
-                  <div class="metric-name">Required HC</div>
-                  <div class="metric-val">152</div>
-                </div>
-                <div class="metric-row">
-                  <div class="metric-name">Estimated SLA</div>
-                  <div class="metric-val">82.4%</div>
-                </div>
-                <div class="metric-row">
-                  <div class="metric-name">Monthly Cost</div>
-                  <div class="metric-val">$319,000</div>
-                </div>
+                <div class="metric-row"><div class="metric-name">Volume / Contacts</div><div class="metric-val" id="baseOutVolume">12,500</div></div>
+                <div class="metric-row"><div class="metric-name">AHT</div><div class="metric-val" id="baseOutAht">420 sec</div></div>
+                <div class="metric-row"><div class="metric-name">Shrinkage</div><div class="metric-val" id="baseOutShrinkage">28%</div></div>
+                <div class="metric-row"><div class="metric-name">Available HC</div><div class="metric-val" id="baseOutHc">145</div></div>
+                <div class="metric-row"><div class="metric-name">Required HC</div><div class="metric-val" id="baseOutReqHc">152</div></div>
+                <div class="metric-row"><div class="metric-name">Estimated SLA</div><div class="metric-val" id="baseOutSla">82.4%</div></div>
+                <div class="metric-row"><div class="metric-name">Cost</div><div class="metric-val" id="baseOutCost">$319,000</div></div>
               </div>
             </section>
 
@@ -1548,34 +1813,13 @@
                 <div class="status-badge">Projected</div>
               </div>
               <div class="metric-list">
-                <div class="metric-row">
-                  <div class="metric-name">Volume</div>
-                  <div class="metric-val">13,500 <span class="mini-delta bad">+8.0%</span></div>
-                </div>
-                <div class="metric-row">
-                  <div class="metric-name">AHT</div>
-                  <div class="metric-val">445 sec <span class="mini-delta bad">+25 sec</span></div>
-                </div>
-                <div class="metric-row">
-                  <div class="metric-name">Shrinkage</div>
-                  <div class="metric-val">31% <span class="mini-delta bad">+3 pts</span></div>
-                </div>
-                <div class="metric-row">
-                  <div class="metric-name">Available HC</div>
-                  <div class="metric-val">145 <span class="mini-delta warn">0</span></div>
-                </div>
-                <div class="metric-row">
-                  <div class="metric-name">Required HC</div>
-                  <div class="metric-val">168 <span class="mini-delta bad">+16</span></div>
-                </div>
-                <div class="metric-row">
-                  <div class="metric-name">Estimated SLA</div>
-                  <div class="metric-val">76.1% <span class="mini-delta bad">-6.3 pts</span></div>
-                </div>
-                <div class="metric-row">
-                  <div class="metric-name">Monthly Cost</div>
-                  <div class="metric-val">$354,200 <span class="mini-delta bad">+$35.2k</span></div>
-                </div>
+                <div class="metric-row"><div class="metric-name">Volume / Contacts</div><div class="metric-val" id="scenarioOutVolume">13,500 <span class="mini-delta bad" id="deltaVolume">+8.0%</span></div></div>
+                <div class="metric-row"><div class="metric-name">AHT</div><div class="metric-val" id="scenarioOutAht">445 sec <span class="mini-delta bad" id="deltaAht">+25 sec</span></div></div>
+                <div class="metric-row"><div class="metric-name">Shrinkage</div><div class="metric-val" id="scenarioOutShrinkage">31% <span class="mini-delta bad" id="deltaShrinkage">+3 pts</span></div></div>
+                <div class="metric-row"><div class="metric-name">Available HC</div><div class="metric-val" id="scenarioOutHc">145 <span class="mini-delta warn" id="deltaHc">0</span></div></div>
+                <div class="metric-row"><div class="metric-name">Required HC</div><div class="metric-val" id="scenarioOutReqHc">168 <span class="mini-delta bad" id="deltaReqHc">+16</span></div></div>
+                <div class="metric-row"><div class="metric-name">Estimated SLA</div><div class="metric-val" id="scenarioOutSla">76.1% <span class="mini-delta bad" id="deltaSla">-6.3 pts</span></div></div>
+                <div class="metric-row"><div class="metric-name">Cost</div><div class="metric-val" id="scenarioOutCost">$354,200 <span class="mini-delta bad" id="deltaCost">+$35.2k</span></div></div>
               </div>
             </section>
           </div>
@@ -1584,8 +1828,8 @@
             <div class="scroll-header">
               <div class="scroll-hint">Scroll horizontally to view all KPI cards</div>
               <div class="scroll-controls">
-                <button class="scroll-btn" data-target="impactScroll" data-dir="-1" aria-label="Scroll KPI cards left">‹</button>
-                <button class="scroll-btn" data-target="impactScroll" data-dir="1" aria-label="Scroll KPI cards right">›</button>
+                <button class="scroll-btn" data-target="impactScroll" data-dir="-1">‹</button>
+                <button class="scroll-btn" data-target="impactScroll" data-dir="1">›</button>
               </div>
             </div>
 
@@ -1593,32 +1837,32 @@
               <div class="impact-grid">
                 <div class="impact-card">
                   <div class="label">HC Needed</div>
-                  <div class="big">168</div>
-                  <div class="small">Projected required HC under scenario assumptions.</div>
+                  <div class="big" id="kpiReqHc">168</div>
+                  <div class="small">Projected required HC under current engine assumptions.</div>
                 </div>
                 <div class="impact-card">
                   <div class="label">HC Gap</div>
-                  <div class="big">+16</div>
+                  <div class="big" id="kpiHcGap">+16</div>
                   <div class="small">Additional productive HC needed to defend service target.</div>
                 </div>
                 <div class="impact-card">
                   <div class="label">SLA Change</div>
-                  <div class="big">-6.3 pts</div>
+                  <div class="big" id="kpiSlaChange">-6.3 pts</div>
                   <div class="small">Service deterioration versus baseline.</div>
                 </div>
                 <div class="impact-card">
                   <div class="label">Cost Change</div>
-                  <div class="big">+$35.2k</div>
+                  <div class="big" id="kpiCostChange">+$35.2k</div>
                   <div class="small">Projected cost increase if staffing is added.</div>
                 </div>
                 <div class="impact-card">
                   <div class="label">Utilization Impact</div>
-                  <div class="big">+4.8%</div>
+                  <div class="big" id="kpiUtilization">+4.8%</div>
                   <div class="small">Pressure on operating occupancy and buffer.</div>
                 </div>
                 <div class="impact-card">
                   <div class="label">Risk Score</div>
-                  <div class="big">78 / 100</div>
+                  <div class="big" id="kpiRiskScore">78 / 100</div>
                   <div class="small">High operating risk from demand-capacity mismatch.</div>
                 </div>
               </div>
@@ -1629,8 +1873,8 @@
             <div class="scroll-header">
               <div class="scroll-hint">Scroll horizontally to view all charts</div>
               <div class="scroll-controls">
-                <button class="scroll-btn" data-target="chartScroll" data-dir="-1" aria-label="Scroll charts left">‹</button>
-                <button class="scroll-btn" data-target="chartScroll" data-dir="1" aria-label="Scroll charts right">›</button>
+                <button class="scroll-btn" data-target="chartScroll" data-dir="-1">‹</button>
+                <button class="scroll-btn" data-target="chartScroll" data-dir="1">›</button>
               </div>
             </div>
 
@@ -1644,33 +1888,33 @@
                   <div class="chart-body">
                     <div class="waterfall">
                       <div class="wf-col">
-                        <div class="wf-value">82.4%</div>
-                        <div class="wf-bar-wrap"><div class="wf-bar" style="height:108px;"></div></div>
+                        <div class="wf-value" id="wfBaseLabel">82.4%</div>
+                        <div class="wf-bar-wrap"><div class="wf-bar" id="wfBaseBar" style="height:108px;"></div></div>
                         <div class="wf-label">Baseline SLA</div>
                       </div>
                       <div class="wf-col">
-                        <div class="wf-value">-2.4</div>
-                        <div class="wf-bar-wrap"><div class="wf-bar negative" style="height:64px;"></div></div>
-                        <div class="wf-label">Volume Effect</div>
+                        <div class="wf-value" id="wfVolLabel">-2.4</div>
+                        <div class="wf-bar-wrap"><div class="wf-bar negative" id="wfVolBar" style="height:64px;"></div></div>
+                        <div class="wf-label">Demand Effect</div>
                       </div>
                       <div class="wf-col">
-                        <div class="wf-value">-1.8</div>
-                        <div class="wf-bar-wrap"><div class="wf-bar negative" style="height:48px;"></div></div>
+                        <div class="wf-value" id="wfAhtLabel">-1.8</div>
+                        <div class="wf-bar-wrap"><div class="wf-bar negative" id="wfAhtBar" style="height:48px;"></div></div>
                         <div class="wf-label">AHT Effect</div>
                       </div>
                       <div class="wf-col">
-                        <div class="wf-value">-2.1</div>
-                        <div class="wf-bar-wrap"><div class="wf-bar negative" style="height:56px;"></div></div>
+                        <div class="wf-value" id="wfShrinkLabel">-2.1</div>
+                        <div class="wf-bar-wrap"><div class="wf-bar negative" id="wfShrinkBar" style="height:56px;"></div></div>
                         <div class="wf-label">Shrinkage Effect</div>
                       </div>
                       <div class="wf-col">
-                        <div class="wf-value">+0.0</div>
-                        <div class="wf-bar-wrap"><div class="wf-bar warning" style="height:10px;"></div></div>
+                        <div class="wf-value" id="wfHcLabel">+0.0</div>
+                        <div class="wf-bar-wrap"><div class="wf-bar warning" id="wfHcBar" style="height:10px;"></div></div>
                         <div class="wf-label">HC Offset</div>
                       </div>
                       <div class="wf-col">
-                        <div class="wf-value">76.1%</div>
-                        <div class="wf-bar-wrap"><div class="wf-bar warning" style="height:86px;"></div></div>
+                        <div class="wf-value" id="wfScenarioLabel">76.1%</div>
+                        <div class="wf-bar-wrap"><div class="wf-bar warning" id="wfScenarioBar" style="height:86px;"></div></div>
                         <div class="wf-label">Scenario SLA</div>
                       </div>
                     </div>
@@ -1686,23 +1930,23 @@
                     <div class="bar-chart">
                       <div class="bar-row">
                         <label>Baseline HC</label>
-                        <div class="bar-track"><div class="bar-fill alt" style="width:81%;"></div></div>
-                        <div class="bar-val">152</div>
+                        <div class="bar-track"><div class="bar-fill alt" id="barBaseReq" style="width:81%;"></div></div>
+                        <div class="bar-val" id="barBaseReqVal">152</div>
                       </div>
                       <div class="bar-row">
                         <label>Scenario HC</label>
-                        <div class="bar-track"><div class="bar-fill" style="width:90%;"></div></div>
-                        <div class="bar-val">168</div>
+                        <div class="bar-track"><div class="bar-fill" id="barScenarioReq" style="width:90%;"></div></div>
+                        <div class="bar-val" id="barScenarioReqVal">168</div>
                       </div>
                       <div class="bar-row">
                         <label>Available HC</label>
-                        <div class="bar-track"><div class="bar-fill warn" style="width:78%;"></div></div>
-                        <div class="bar-val">145</div>
+                        <div class="bar-track"><div class="bar-fill warn" id="barAvailableHc" style="width:78%;"></div></div>
+                        <div class="bar-val" id="barAvailableHcVal">145</div>
                       </div>
                       <div class="bar-row">
                         <label>HC Gap</label>
-                        <div class="bar-track"><div class="bar-fill" style="width:16%;"></div></div>
-                        <div class="bar-val">16</div>
+                        <div class="bar-track"><div class="bar-fill" id="barHcGap" style="width:16%;"></div></div>
+                        <div class="bar-val" id="barHcGapVal">16</div>
                       </div>
                     </div>
                   </div>
@@ -1711,21 +1955,24 @@
                 <section class="chart-card gauge-card">
                   <div class="chart-head">
                     <h3>SLA Risk Meter</h3>
-                    <div class="status-badge">High Risk</div>
+                    <div class="status-badge" id="gaugeRiskBadge">High Risk</div>
                   </div>
                   <div class="chart-body">
                     <div class="gauge-wrap">
                       <div class="gauge-box">
                         <div class="gauge"></div>
                         <div class="gauge-hole"></div>
-                        <div class="needle"></div>
+                        <div class="needle" id="gaugeNeedle"></div>
                         <div class="gauge-center">
                           <div>
-                            <div class="gauge-value">76.1%</div>
+                            <div class="gauge-value" id="gaugeValue">76.1%</div>
                             <div class="gauge-text">Projected Scenario SLA</div>
                           </div>
                         </div>
                       </div>
+                    </div>
+                    <div class="tiny-note" id="gaugeEngineNote">
+                      Engine-specific SLA estimate based on the currently selected calculation model.
                     </div>
                   </div>
                 </section>
@@ -1749,28 +1996,28 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>AHT improves by 10 sec</td>
-                    <td>HC gap reduces from +16 to +11</td>
-                    <td>Partial recovery without full hiring need</td>
+                    <td>Demand reduces slightly</td>
+                    <td id="sensAht10">HC gap reduces</td>
+                    <td>Demand relief helps stabilize service</td>
                   </tr>
                   <tr>
                     <td>Shrinkage improves by 2 pts</td>
-                    <td>SLA improves from 76.1% to 79.3%</td>
-                    <td>Closer to target but still exposed</td>
+                    <td id="sensShrink2">SLA improves</td>
+                    <td>More productive time supports coverage</td>
                   </tr>
                   <tr>
                     <td>Add 8 productive HC</td>
-                    <td>SLA improves to 81.2%</td>
+                    <td id="sensHc8">SLA improves</td>
                     <td>Fastest direct route to service recovery</td>
                   </tr>
                   <tr>
-                    <td>Volume reduces by 5%</td>
-                    <td>Cost need drops by about $9.4k</td>
+                    <td>Demand reduces by 5%</td>
+                    <td id="sensVol5">Cost need changes</td>
                     <td>Lower pressure and lower service risk</td>
                   </tr>
                   <tr>
-                    <td>AHT improves 15 sec and add 5 HC</td>
-                    <td>Scenario returns close to baseline</td>
+                    <td>Mixed efficiency scenario</td>
+                    <td id="sensCombo">Scenario improves</td>
                     <td>Balanced cost and operations approach</td>
                   </tr>
                 </tbody>
@@ -1787,39 +2034,33 @@
               <div class="info-body">
                 <div class="info-list">
                   <div class="info-item">
-                    <strong>Workload Hours</strong>
-                    <p>Total demand converted into handling hours based on forecasted volume and AHT.</p>
-                    <div class="formula-box">Workload Hours = (Volume × AHT in seconds) ÷ 3600</div>
+                    <strong>Quick Planning</strong>
+                    <p>Uses total workload, effective productive hours, shrinkage, and available HC to estimate staffing and directional SLA.</p>
+                    <div class="formula-box">Required HC ≈ Workload Hours ÷ Productive Hours per HC</div>
                   </div>
 
                   <div class="info-item">
-                    <strong>Net Productive Factor</strong>
-                    <p>Represents the portion of paid time available for productive work after shrinkage.</p>
-                    <div class="formula-box">Net Productive Factor = 1 - Shrinkage %</div>
+                    <strong>Interval Based</strong>
+                    <p>Breaks demand into intervals and calculates required HC by interval before aggregating the results.</p>
+                    <div class="formula-box">Total Required HC = aggregate of interval workload and interval capacity</div>
                   </div>
 
                   <div class="info-item">
-                    <strong>Required HC</strong>
-                    <p>Estimated headcount needed to support the workload after shrinkage and operating assumptions.</p>
-                    <div class="formula-box">Required HC = Workload Requirement ÷ Net Productive Capacity per HC</div>
+                    <strong>Erlang Style</strong>
+                    <p>Uses queueing logic with interval contacts, AHT, answer time target, and target SLA to estimate required agents.</p>
+                    <div class="formula-box">Required HC = minimum agents where Erlang-C SLA ≥ target SLA</div>
                   </div>
 
                   <div class="info-item">
                     <strong>HC Gap</strong>
-                    <p>Difference between required HC and currently available productive HC.</p>
+                    <p>Difference between required HC and available productive HC.</p>
                     <div class="formula-box">HC Gap = Required HC - Available HC</div>
                   </div>
 
                   <div class="info-item">
                     <strong>Cost Impact</strong>
-                    <p>Estimated additional cost if extra HC is needed to close the staffing gap.</p>
-                    <div class="formula-box">Cost Impact = HC Gap × Cost per HC</div>
-                  </div>
-
-                  <div class="info-item">
-                    <strong>SLA Risk</strong>
-                    <p>An indicative output showing how far the scenario may move away from the target service level.</p>
-                    <div class="formula-box">SLA Risk = function of demand pressure, HC gap, shrinkage, and AHT change</div>
+                    <p>Estimated additional cost if extra HC is needed to close the positive staffing gap.</p>
+                    <div class="formula-box">Cost Impact = Positive HC Gap × Cost per HC</div>
                   </div>
                 </div>
               </div>
@@ -1835,16 +2076,16 @@
                   <div class="sop-step">
                     <div class="sop-num">1</div>
                     <div class="sop-copy">
-                      <strong>Set Baseline Assumptions</strong>
-                      <p>Enter your current volume, AHT, shrinkage, available HC, SLA target, occupancy, and cost per HC. This becomes the reference state.</p>
+                      <strong>Select the Right Engine</strong>
+                      <p>Use Quick Planning for leadership scenarios, Interval Based for interval demand analysis, and Erlang Style for queue staffing calculations.</p>
                     </div>
                   </div>
 
                   <div class="sop-step">
                     <div class="sop-num">2</div>
                     <div class="sop-copy">
-                      <strong>Adjust Scenario Inputs</strong>
-                      <p>Update one or more drivers such as volume, AHT, shrinkage, available HC, or cost per HC to model the future state.</p>
+                      <strong>Enter or Upload Data</strong>
+                      <p>For Interval Based mode, you can paste interval rows, upload CSV, edit the table directly, and sync values back to the text area.</p>
                     </div>
                   </div>
 
@@ -1852,31 +2093,15 @@
                     <div class="sop-num">3</div>
                     <div class="sop-copy">
                       <strong>Run Simulation</strong>
-                      <p>Use the Run button to compare baseline and scenario and review changes in required HC, SLA risk, utilization, and cost impact.</p>
+                      <p>Review required HC, HC gap, service movement, risk, and cost impact.</p>
                     </div>
                   </div>
 
                   <div class="sop-step">
                     <div class="sop-num">4</div>
                     <div class="sop-copy">
-                      <strong>Review Decision Outputs</strong>
-                      <p>Use the KPI cards, waterfall, HC comparison, and SLA risk meter to understand what is driving operational pressure.</p>
-                    </div>
-                  </div>
-
-                  <div class="sop-step">
-                    <div class="sop-num">5</div>
-                    <div class="sop-copy">
-                      <strong>Check Sensitivity Explorer</strong>
-                      <p>Review improvement levers such as lowering AHT, reducing shrinkage, or adding HC to identify the best recovery option.</p>
-                    </div>
-                  </div>
-
-                  <div class="sop-step">
-                    <div class="sop-num">6</div>
-                    <div class="sop-copy">
-                      <strong>Save or Export</strong>
-                      <p>Once the scenario is validated, save it for future comparison or export the view for leadership discussion and planning alignment.</p>
+                      <strong>Use the Insights Panel</strong>
+                      <p>Check key drivers and recommended actions to understand what needs to change operationally.</p>
                     </div>
                   </div>
                 </div>
@@ -1884,7 +2109,7 @@
                 <div class="tip-strip">
                   <strong>Input Guidance</strong>
                   <p>
-                    Use the same unit consistently across the dashboard. Volume should reflect the selected planning view, AHT should be entered in seconds, shrinkage should be entered as a percentage, and available HC should reflect productive headcount only.
+                    Keep units consistent. AHT should always be in seconds. In Interval Based mode, each row should be Interval,Volume,AHT. Example: 09:00,120,360
                   </p>
                 </div>
               </div>
@@ -1892,7 +2117,7 @@
           </div>
 
           <div class="footer-note">
-            This version includes premium horizontal scroll controls, drag-to-scroll, fixed-width KPI cards, fixed-width chart cards, and a formula glossary with SOP guidance so users can understand the dashboard and enter inputs correctly.
+            Final version with true interval upload and table editing support included. Interval tables can now be uploaded, edited, copied, sorted, and simulated directly.
           </div>
         </div>
       </main>
@@ -1909,8 +2134,8 @@
           <section class="right-card">
             <div class="right-head"><h4>Scenario Summary</h4></div>
             <div class="right-body">
-              <p>
-                The current scenario increases workload demand while effective capacity stays constrained. Required HC rises from 152 to 168, pulling projected SLA down from 82.4% to 76.1%. This creates a high service risk and material monthly cost exposure if target performance must be protected.
+              <p id="insightSummary">
+                The current scenario changes required HC and SLA based on the selected engine.
               </p>
             </div>
           </section>
@@ -1919,9 +2144,9 @@
             <div class="right-head"><h4>Key Drivers</h4></div>
             <div class="right-body">
               <div class="bullet-list">
-                <div class="bullet"><span class="bullet-dot"></span><span>Volume increase is the strongest driver of staffing pressure.</span></div>
-                <div class="bullet"><span class="bullet-dot"></span><span>Higher AHT compounds workload intensity and reduces throughput.</span></div>
-                <div class="bullet"><span class="bullet-dot"></span><span>Shrinkage above 30% leaves limited recovery room for service stability.</span></div>
+                <div class="bullet"><span class="bullet-dot"></span><span id="driver1">Demand change is influencing staffing pressure.</span></div>
+                <div class="bullet"><span class="bullet-dot"></span><span id="driver2">AHT change is influencing throughput efficiency.</span></div>
+                <div class="bullet"><span class="bullet-dot"></span><span id="driver3">Shrinkage or coverage assumptions influence productive capacity.</span></div>
               </div>
             </div>
           </section>
@@ -1930,10 +2155,10 @@
             <div class="right-head"><h4>Recommended Actions</h4></div>
             <div class="right-body">
               <div class="bullet-list">
-                <div class="bullet"><span class="bullet-dot"></span><span>Add 12 to 16 productive HC if target SLA must be maintained.</span></div>
-                <div class="bullet"><span class="bullet-dot"></span><span>Reduce AHT by at least 15 seconds through coaching or process improvement.</span></div>
-                <div class="bullet"><span class="bullet-dot"></span><span>Contain shrinkage below 29% to protect available capacity.</span></div>
-                <div class="bullet"><span class="bullet-dot"></span><span>Use overtime as short-term containment only.</span></div>
+                <div class="bullet"><span class="bullet-dot"></span><span id="action1">Close the staffing gap where service target must be protected.</span></div>
+                <div class="bullet"><span class="bullet-dot"></span><span id="action2">Reduce AHT where possible to improve service resilience.</span></div>
+                <div class="bullet"><span class="bullet-dot"></span><span id="action3">Improve shrinkage performance where possible.</span></div>
+                <div class="bullet"><span class="bullet-dot"></span><span id="action4">Use overtime as a temporary control rather than a permanent fix.</span></div>
               </div>
             </div>
           </section>
@@ -1942,12 +2167,12 @@
             <div class="right-head"><h4>Decision Notes</h4></div>
             <div class="right-body">
               <div class="chip-row" style="margin-bottom:12px;">
-                <div class="chip">High Service Risk</div>
-                <div class="chip">Staffing Shortfall</div>
-                <div class="chip">Cost Exposure</div>
+                <div class="chip" id="noteChip1">High Service Risk</div>
+                <div class="chip" id="noteChip2">Staffing Shortfall</div>
+                <div class="chip" id="noteChip3">Cost Exposure</div>
               </div>
-              <p>
-                Best balanced option is a mixed strategy: recover part of the HC gap while improving efficiency, instead of solving the full need through hiring alone.
+              <p id="decisionNote">
+                Best balanced option is usually a mix of staffing recovery and efficiency improvement.
               </p>
             </div>
           </section>
@@ -1955,8 +2180,8 @@
           <section class="right-card">
             <div class="right-head"><h4>Assumptions</h4></div>
             <div class="right-body">
-              <p>
-                Values shown here are sample numbers for UI preview. Final production build can connect to your actual WFM formulas, interval logic, scenario presets, and export engine.
+              <p id="assumptionText">
+                The selected engine determines how required HC and SLA are estimated. Quick Planning is directional. Interval Based aggregates interval demand. Erlang Style uses queue logic for one interval.
               </p>
             </div>
           </section>
@@ -1966,24 +2191,884 @@
   </div>
 
   <script>
-    document.querySelectorAll('.pill').forEach(pill => {
-      pill.addEventListener('click', () => {
-        const group = pill.parentElement;
-        group.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-        pill.classList.add('active');
-      });
-    });
+    const metricModes = {
+      volume: "absolute",
+      aht: "absolute",
+      shrinkage: "absolute",
+      hc: "absolute",
+      cost: "absolute"
+    };
 
-    document.querySelectorAll('.preset').forEach(card => {
-      card.addEventListener('click', () => {
-        document.querySelectorAll('.preset').forEach(p => {
-          p.style.borderColor = 'var(--border)';
-          p.style.background = '#fff';
-        });
-        card.style.borderColor = '#9ec0fb';
-        card.style.background = '#f7fbff';
+    const planningHoursMap = {
+      daily: 8,
+      weekly: 40,
+      monthly: 160
+    };
+
+    let baselineIntervalRows = [];
+    let scenarioIntervalRows = [];
+
+    function num(val, fallback = 0) {
+      const n = parseFloat(val);
+      return Number.isFinite(n) ? n : fallback;
+    }
+
+    function clamp(val, min, max) {
+      return Math.min(max, Math.max(min, val));
+    }
+
+    function round(val, decimals = 1) {
+      const p = Math.pow(10, decimals);
+      return Math.round((val + Number.EPSILON) * p) / p;
+    }
+
+    function formatNumber(val, decimals = 0) {
+      return Number(val).toLocaleString(undefined, {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
       });
-    });
+    }
+
+    function formatCurrency(val, decimals = 0) {
+      return "$" + Number(val).toLocaleString(undefined, {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      });
+    }
+
+    function formatCompactCurrency(val) {
+      const abs = Math.abs(val);
+      const sign = val < 0 ? "-" : "+";
+      if (abs >= 1000000) return sign + "$" + round(abs / 1000000, 1) + "m";
+      if (abs >= 1000) return sign + "$" + round(abs / 1000, 1) + "k";
+      return sign + "$" + round(abs, 0);
+    }
+
+    function formatSigned(val, decimals = 1, suffix = "") {
+      const sign = val > 0 ? "+" : val < 0 ? "-" : "";
+      return sign + formatNumber(Math.abs(val), decimals) + suffix;
+    }
+
+    function setDeltaHtml(containerId, valueText, valueForClass, reverseGood = false) {
+      const el = document.getElementById(containerId);
+      el.textContent = valueText;
+      el.className = "mini-delta";
+      if (Math.abs(valueForClass) < 0.0001) {
+        el.classList.add("warn");
+      } else {
+        const isGood = reverseGood ? valueForClass > 0 : valueForClass < 0;
+        el.classList.add(isGood ? "good" : "bad");
+      }
+    }
+
+    function effectiveProductiveHoursPerHc(planningView, shrinkagePct, occupancyPct) {
+      const baseHours = planningHoursMap[planningView] || 160;
+      const shrinkFactor = 1 - clamp(shrinkagePct / 100, 0, 0.95);
+      const occupancyFactor = clamp(occupancyPct / 100, 0.3, 1);
+      return baseHours * shrinkFactor * occupancyFactor;
+    }
+
+    function calcQuickState(input) {
+      const productiveHoursPerHc = effectiveProductiveHoursPerHc(
+        input.planningView,
+        input.shrinkage,
+        input.occupancy
+      );
+
+      const workloadHours = (input.volume * input.aht) / 3600;
+      const requiredHc = productiveHoursPerHc > 0 ? workloadHours / productiveHoursPerHc : 0;
+      const hcGap = requiredHc - input.hc;
+      const cost = input.hc * input.costPerHc;
+
+      const capacityRatio = input.hc > 0 ? input.hc / Math.max(requiredHc, 0.0001) : 0;
+      const occupancyPressure = Math.max(0, input.occupancy - 85) * 0.25;
+      let slaEstimate = input.slaTarget + (capacityRatio - 1) * 55 - occupancyPressure;
+      slaEstimate = clamp(slaEstimate, 5, 99.5);
+
+      let riskScore = clamp(
+        (Math.max(0, hcGap) / Math.max(requiredHc, 1)) * 70 +
+        Math.max(0, input.shrinkage - 30) * 1.2 +
+        Math.max(0, input.aht - 450) / 8,
+        0,
+        100
+      ) * num(document.getElementById("riskSensitivity").value, 1);
+
+      riskScore = clamp(riskScore, 0, 100);
+
+      return {
+        engine: "quick",
+        volume: input.volume,
+        aht: input.aht,
+        shrinkage: input.shrinkage,
+        hc: input.hc,
+        costPerHc: input.costPerHc,
+        requiredHc,
+        hcGap,
+        slaEstimate,
+        cost,
+        workloadHours,
+        riskScore
+      };
+    }
+
+    function parseIntervalRows(text) {
+      return text
+        .split(/\n+/)
+        .map(line => line.trim())
+        .filter(Boolean)
+        .map(line => {
+          const parts = line.split(",").map(p => p.trim());
+          return {
+            interval: parts[0] || "",
+            volume: num(parts[1], 0),
+            aht: num(parts[2], 0)
+          };
+        })
+        .filter(r => r.interval && r.aht > 0);
+    }
+
+    function rowsToText(rows) {
+      return rows.map(r => `${r.interval},${round(r.volume,0)},${round(r.aht,0)}`).join("\n");
+    }
+
+    function sortRowsByTime(rows) {
+      function toMinutes(t) {
+        const [h, m] = String(t).split(":").map(x => parseInt(x, 10));
+        return (Number.isFinite(h) ? h : 0) * 60 + (Number.isFinite(m) ? m : 0);
+      }
+      rows.sort((a, b) => toMinutes(a.interval) - toMinutes(b.interval));
+    }
+
+    function calcIntervalState(rows, opts) {
+      const intervalMinutes = opts.intervalSize;
+      const shrinkFactor = 1 - clamp(opts.shrinkage / 100, 0, 0.95);
+      const occupancyFactor = clamp(opts.occupancy / 100, 0.3, 1);
+
+      let totalVolume = 0;
+      let weightedAhtNumerator = 0;
+      let totalRequired = 0;
+
+      rows.forEach(r => {
+        totalVolume += r.volume;
+        weightedAhtNumerator += r.volume * r.aht;
+
+        const workloadHours = (r.volume * r.aht) / 3600;
+        const intervalHours = intervalMinutes / 60;
+        const productiveHoursPerAgentInterval = intervalHours * shrinkFactor * occupancyFactor;
+        const req = productiveHoursPerAgentInterval > 0 ? workloadHours / productiveHoursPerAgentInterval : 0;
+        totalRequired += req;
+      });
+
+      const avgAht = totalVolume > 0 ? weightedAhtNumerator / totalVolume : 0;
+      const requiredHc = rows.length > 0 ? totalRequired / rows.length : 0;
+      const hcGap = requiredHc - opts.hc;
+      const cost = opts.hc * opts.costPerHc;
+      const capacityRatio = opts.hc > 0 ? opts.hc / Math.max(requiredHc, 0.0001) : 0;
+
+      let slaEstimate = opts.slaTarget + (capacityRatio - 1) * 50 - Math.max(0, opts.occupancy - 85) * 0.18;
+      slaEstimate = clamp(slaEstimate, 5, 99.5);
+
+      let riskScore = clamp(
+        (Math.max(0, hcGap) / Math.max(requiredHc, 1)) * 75 +
+        Math.max(0, opts.shrinkage - 30) * 1.1 +
+        Math.max(0, avgAht - 450) / 9,
+        0,
+        100
+      ) * num(document.getElementById("riskSensitivity").value, 1);
+
+      return {
+        engine: "interval",
+        volume: totalVolume,
+        aht: avgAht,
+        shrinkage: opts.shrinkage,
+        hc: opts.hc,
+        costPerHc: opts.costPerHc,
+        requiredHc,
+        hcGap,
+        slaEstimate,
+        cost,
+        riskScore,
+        rowsCount: rows.length
+      };
+    }
+
+    function factorial(n) {
+      if (n <= 1) return 1;
+      let res = 1;
+      for (let i = 2; i <= n; i++) res *= i;
+      return res;
+    }
+
+    function erlangC(traffic, agents) {
+      if (agents <= traffic) return 1;
+      let sum = 0;
+      for (let k = 0; k < agents; k++) {
+        sum += Math.pow(traffic, k) / factorial(k);
+      }
+      const top = (Math.pow(traffic, agents) / factorial(agents)) * (agents / (agents - traffic));
+      return top / (sum + top);
+    }
+
+    function serviceLevelErlang(contacts, ahtSec, intervalMin, agents, targetAnswerSec) {
+      const intervalSec = intervalMin * 60;
+      const lambda = contacts / intervalSec;
+      const mu = 1 / ahtSec;
+      const traffic = lambda / mu;
+
+      if (contacts <= 0 || agents <= 0) return 0;
+      if (agents <= traffic) return 0;
+
+      const ec = erlangC(traffic, agents);
+      const exponent = -(agents - traffic) * (targetAnswerSec / ahtSec);
+      const sl = 1 - (ec * Math.exp(exponent));
+      return clamp(sl * 100, 0, 100);
+    }
+
+    function requiredAgentsForTarget(contacts, ahtSec, intervalMin, targetAnswerSec, targetSlaPct) {
+      if (contacts <= 0) return 0;
+      const traffic = (contacts * ahtSec) / (intervalMin * 60);
+      let agents = Math.max(1, Math.ceil(traffic));
+      for (let i = agents; i < agents + 500; i++) {
+        const sl = serviceLevelErlang(contacts, ahtSec, intervalMin, i, targetAnswerSec);
+        if (sl >= targetSlaPct) return i;
+      }
+      return agents + 500;
+    }
+
+    function calcErlangState(input) {
+      const baseRequired = requiredAgentsForTarget(
+        input.contacts,
+        input.aht,
+        input.intervalSize,
+        input.answerTime,
+        input.slaTarget
+      );
+
+      const shrinkFactor = 1 - clamp(input.shrinkage / 100, 0, 0.95);
+      const requiredHc = shrinkFactor > 0 ? baseRequired / shrinkFactor : baseRequired;
+      const hcGap = requiredHc - input.hc;
+      const cost = input.hc * input.costPerHc;
+
+      const staffedAgents = Math.max(1, Math.floor(input.hc * shrinkFactor));
+      const slaEstimate = serviceLevelErlang(
+        input.contacts,
+        input.aht,
+        input.intervalSize,
+        Math.max(1, staffedAgents),
+        input.answerTime
+      );
+
+      let riskScore = clamp(
+        (Math.max(0, hcGap) / Math.max(requiredHc, 1)) * 80 +
+        Math.max(0, input.shrinkage - 30) * 0.8 +
+        Math.max(0, input.aht - 450) / 10,
+        0,
+        100
+      ) * num(document.getElementById("riskSensitivity").value, 1);
+
+      return {
+        engine: "erlang",
+        volume: input.contacts,
+        aht: input.aht,
+        shrinkage: input.shrinkage,
+        hc: input.hc,
+        costPerHc: input.costPerHc,
+        requiredHc,
+        hcGap,
+        slaEstimate,
+        cost,
+        riskScore,
+        answerTime: input.answerTime
+      };
+    }
+
+    function renderIntervalTable(type) {
+      const body = document.getElementById(type === "base" ? "baselineIntervalTableBody" : "scenarioIntervalTableBody");
+      const rows = type === "base" ? baselineIntervalRows : scenarioIntervalRows;
+
+      body.innerHTML = "";
+      rows.forEach((row, index) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td><input type="text" value="${row.interval}" data-type="${type}" data-index="${index}" data-field="interval"></td>
+          <td><input type="number" value="${row.volume}" data-type="${type}" data-index="${index}" data-field="volume" min="0" step="1"></td>
+          <td><input type="number" value="${row.aht}" data-type="${type}" data-index="${index}" data-field="aht" min="1" step="1"></td>
+          <td><button class="row-delete" data-delete-row="${type}" data-index="${index}">Delete</button></td>
+        `;
+        body.appendChild(tr);
+      });
+
+      body.querySelectorAll("input").forEach(input => {
+        input.addEventListener("input", handleIntervalCellEdit);
+      });
+
+      body.querySelectorAll("[data-delete-row]").forEach(btn => {
+        btn.addEventListener("click", handleDeleteIntervalRow);
+      });
+    }
+
+    function handleIntervalCellEdit(e) {
+      const type = e.target.dataset.type;
+      const index = Number(e.target.dataset.index);
+      const field = e.target.dataset.field;
+      const rows = type === "base" ? baselineIntervalRows : scenarioIntervalRows;
+
+      if (!rows[index]) return;
+      if (field === "interval") rows[index][field] = e.target.value;
+      else rows[index][field] = num(e.target.value, 0);
+
+      syncIntervalText(type);
+      updateIntervalMiniSummary();
+      recalculate();
+    }
+
+    function handleDeleteIntervalRow(e) {
+      const type = e.target.dataset.deleteRow;
+      const index = Number(e.target.dataset.index);
+      const rows = type === "base" ? baselineIntervalRows : scenarioIntervalRows;
+      rows.splice(index, 1);
+      renderIntervalTable(type);
+      syncIntervalText(type);
+      updateIntervalMiniSummary();
+      recalculate();
+    }
+
+    function syncIntervalText(type) {
+      if (type === "base") {
+        document.getElementById("intervalBaseData").value = rowsToText(baselineIntervalRows);
+      } else {
+        document.getElementById("intervalScenarioData").value = rowsToText(scenarioIntervalRows);
+      }
+    }
+
+    function loadIntervalTextToTable(type) {
+      const text = document.getElementById(type === "base" ? "intervalBaseData" : "intervalScenarioData").value;
+      const rows = parseIntervalRows(text);
+      if (type === "base") baselineIntervalRows = rows;
+      else scenarioIntervalRows = rows;
+      renderIntervalTable(type);
+      updateIntervalMiniSummary();
+      recalculate();
+    }
+
+    function addIntervalRow(type) {
+      const rows = type === "base" ? baselineIntervalRows : scenarioIntervalRows;
+      rows.push({ interval: "00:00", volume: 0, aht: 300 });
+      renderIntervalTable(type);
+      syncIntervalText(type);
+      updateIntervalMiniSummary();
+      recalculate();
+    }
+
+    function updateIntervalMiniSummary() {
+      const baseState = calcIntervalState(
+        baselineIntervalRows,
+        {
+          intervalSize: num(document.getElementById("intervalSize").value, 15),
+          costPerHc: num(document.getElementById("intervalCostPerHc").value, 2200),
+          shrinkage: num(document.getElementById("intervalShrinkage").value, 28),
+          slaTarget: num(document.getElementById("intervalSlaTarget").value, 80),
+          occupancy: num(document.getElementById("intervalOccupancy").value, 85),
+          hc: num(document.getElementById("intervalBaseHc").value, 145)
+        }
+      );
+
+      const scenarioState = calcIntervalState(
+        scenarioIntervalRows,
+        {
+          intervalSize: num(document.getElementById("intervalSize").value, 15),
+          costPerHc: num(document.getElementById("intervalCostPerHc").value, 2200),
+          shrinkage: num(document.getElementById("intervalShrinkage").value, 28),
+          slaTarget: num(document.getElementById("intervalSlaTarget").value, 80),
+          occupancy: num(document.getElementById("intervalOccupancy").value, 85),
+          hc: num(document.getElementById("intervalScenarioHc").value, 145)
+        }
+      );
+
+      document.getElementById("baseIntervalRows").textContent = formatNumber(baseState.rowsCount || 0, 0);
+      document.getElementById("baseIntervalVolume").textContent = formatNumber(baseState.volume || 0, 0);
+      document.getElementById("baseIntervalAht").textContent = formatNumber(baseState.aht || 0, 0);
+      document.getElementById("baseIntervalReq").textContent = formatNumber(Math.ceil(baseState.requiredHc || 0), 0);
+
+      document.getElementById("scenarioIntervalRows").textContent = formatNumber(scenarioState.rowsCount || 0, 0);
+      document.getElementById("scenarioIntervalVolume").textContent = formatNumber(scenarioState.volume || 0, 0);
+      document.getElementById("scenarioIntervalAht").textContent = formatNumber(scenarioState.aht || 0, 0);
+      document.getElementById("scenarioIntervalReq").textContent = formatNumber(Math.ceil(scenarioState.requiredHc || 0), 0);
+    }
+
+    function handleIntervalFile(file, type) {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        const text = evt.target.result;
+        if (type === "base") {
+          document.getElementById("intervalBaseData").value = text;
+          loadIntervalTextToTable("base");
+        } else {
+          document.getElementById("intervalScenarioData").value = text;
+          loadIntervalTextToTable("scenario");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function refreshEngineSections() {
+      const engine = document.getElementById("engineSelector").value;
+      document.getElementById("engineQuick").classList.toggle("hidden", engine !== "quick");
+      document.getElementById("engineInterval").classList.toggle("hidden", engine !== "interval");
+      document.getElementById("engineErlang").classList.toggle("hidden", engine !== "erlang");
+
+      const chip = document.getElementById("chipEngine");
+      chip.textContent =
+        engine === "quick" ? "Quick Planning" :
+        engine === "interval" ? "Interval Based" :
+        "Erlang Style";
+    }
+
+    function getQuickStates() {
+      const base = {
+        volume: Math.max(0, num(document.getElementById("baseVolume").value, 12500)),
+        aht: Math.max(1, num(document.getElementById("baseAht").value, 420)),
+        shrinkage: clamp(num(document.getElementById("baseShrinkage").value, 28), 0, 95),
+        hc: Math.max(0, num(document.getElementById("baseHc").value, 145)),
+        slaTarget: clamp(num(document.getElementById("baseSlaTarget").value, 80), 1, 100),
+        occupancy: clamp(num(document.getElementById("baseOccupancy").value, 85), 1, 100),
+        planningView: document.getElementById("planningView").value,
+        costPerHc: Math.max(0, num(document.getElementById("baseCostPerHc").value, 2200))
+      };
+
+      document.getElementById("baselineVolumePill").textContent = `Baseline: ${formatNumber(base.volume)}`;
+      document.getElementById("baselineAhtPill").textContent = `Baseline: ${formatNumber(base.aht)} sec`;
+      document.getElementById("baselineShrinkagePill").textContent = `Baseline: ${formatNumber(base.shrinkage,1)}%`;
+      document.getElementById("baselineHcPill").textContent = `Baseline: ${formatNumber(base.hc,0)}`;
+      document.getElementById("baselineCostPill").textContent = `Baseline: ${formatNumber(base.costPerHc,0)}`;
+
+      const rawVolume = num(document.getElementById("scenarioVolumeInput").value, base.volume);
+      const rawAht = num(document.getElementById("scenarioAhtInput").value, base.aht);
+      const rawShrink = num(document.getElementById("scenarioShrinkageInput").value, base.shrinkage);
+      const rawHc = num(document.getElementById("scenarioHcInput").value, base.hc);
+      const rawCost = num(document.getElementById("scenarioCostInput").value, base.costPerHc);
+
+      const scenario = {
+        volume: metricModes.volume === "percent" ? Math.max(0, base.volume * (1 + rawVolume / 100)) : Math.max(0, rawVolume),
+        aht: metricModes.aht === "delta" ? Math.max(1, base.aht + rawAht) : Math.max(1, rawAht),
+        shrinkage: metricModes.shrinkage === "delta" ? clamp(base.shrinkage + rawShrink, 0, 95) : clamp(rawShrink, 0, 95),
+        hc: metricModes.hc === "delta" ? Math.max(0, base.hc + rawHc) : Math.max(0, rawHc),
+        costPerHc: metricModes.cost === "delta" ? Math.max(0, base.costPerHc + rawCost) : Math.max(0, rawCost),
+        slaTarget: base.slaTarget,
+        occupancy: base.occupancy,
+        planningView: base.planningView
+      };
+
+      const volPct = base.volume === 0 ? 0 : ((scenario.volume - base.volume) / base.volume) * 100;
+      document.getElementById("scenarioVolumeDelta").value = formatSigned(volPct,1,"%");
+      document.getElementById("scenarioAhtDelta").value = formatSigned(scenario.aht - base.aht,0," sec");
+      document.getElementById("scenarioShrinkageDelta").value = formatSigned(scenario.shrinkage - base.shrinkage,1," pts");
+      document.getElementById("scenarioHcDelta").value = formatSigned(scenario.hc - base.hc,0,"");
+      document.getElementById("scenarioCostDelta").value = formatSigned(scenario.costPerHc - base.costPerHc,0,"");
+
+      return {
+        baseState: calcQuickState(base),
+        scenarioState: calcQuickState(scenario)
+      };
+    }
+
+    function getIntervalStates() {
+      const intervalSize = num(document.getElementById("intervalSize").value, 15);
+      const costPerHc = Math.max(0, num(document.getElementById("intervalCostPerHc").value, 2200));
+      const shrinkage = clamp(num(document.getElementById("intervalShrinkage").value, 28), 0, 95);
+      const slaTarget = clamp(num(document.getElementById("intervalSlaTarget").value, 80), 1, 100);
+      const occupancy = clamp(num(document.getElementById("intervalOccupancy").value, 85), 1, 100);
+      const baseHc = Math.max(0, num(document.getElementById("intervalBaseHc").value, 145));
+      const scenarioHc = Math.max(0, num(document.getElementById("intervalScenarioHc").value, 145));
+
+      return {
+        baseState: calcIntervalState(baselineIntervalRows, { intervalSize, costPerHc, shrinkage, slaTarget, occupancy, hc: baseHc }),
+        scenarioState: calcIntervalState(scenarioIntervalRows, { intervalSize, costPerHc, shrinkage, slaTarget, occupancy, hc: scenarioHc })
+      };
+    }
+
+    function getErlangStates() {
+      const intervalSize = num(document.getElementById("erlangIntervalSize").value, 15);
+      const answerTime = Math.max(1, num(document.getElementById("erlangAnsTime").value, 20));
+      const slaTarget = clamp(num(document.getElementById("erlangSlaTarget").value, 80), 1, 100);
+      const shrinkage = clamp(num(document.getElementById("erlangShrinkage").value, 28), 0, 95);
+      const costPerHc = Math.max(0, num(document.getElementById("erlangCostPerHc").value, 2200));
+
+      const base = {
+        contacts: Math.max(0, num(document.getElementById("erlangBaseContacts").value, 180)),
+        aht: Math.max(1, num(document.getElementById("erlangBaseAht").value, 390)),
+        intervalSize,
+        answerTime,
+        slaTarget,
+        shrinkage,
+        hc: Math.max(0, num(document.getElementById("erlangBaseHc").value, 16)),
+        costPerHc
+      };
+
+      const scenario = {
+        contacts: Math.max(0, num(document.getElementById("erlangScenarioContacts").value, 210)),
+        aht: Math.max(1, num(document.getElementById("erlangScenarioAht").value, 420)),
+        intervalSize,
+        answerTime,
+        slaTarget,
+        shrinkage,
+        hc: Math.max(0, num(document.getElementById("erlangScenarioHc").value, 16)),
+        costPerHc
+      };
+
+      return {
+        baseState: calcErlangState(base),
+        scenarioState: calcErlangState(scenario)
+      };
+    }
+
+    function renderComparison(baseState, scenarioState) {
+      const volDeltaPct = baseState.volume === 0 ? 0 : ((scenarioState.volume - baseState.volume) / baseState.volume) * 100;
+      const ahtDelta = scenarioState.aht - baseState.aht;
+      const shrinkDelta = scenarioState.shrinkage - baseState.shrinkage;
+      const hcDelta = scenarioState.hc - baseState.hc;
+      const reqHcDelta = Math.ceil(scenarioState.requiredHc) - Math.ceil(baseState.requiredHc);
+      const slaDelta = scenarioState.slaEstimate - baseState.slaEstimate;
+      const costDelta = scenarioState.cost - baseState.cost;
+
+      document.getElementById("baseOutVolume").textContent = formatNumber(baseState.volume, 0);
+      document.getElementById("baseOutAht").textContent = formatNumber(baseState.aht, 0) + " sec";
+      document.getElementById("baseOutShrinkage").textContent = formatNumber(baseState.shrinkage, 1) + "%";
+      document.getElementById("baseOutHc").textContent = formatNumber(baseState.hc, 0);
+      document.getElementById("baseOutReqHc").textContent = formatNumber(Math.ceil(baseState.requiredHc), 0);
+      document.getElementById("baseOutSla").textContent = formatNumber(baseState.slaEstimate, 1) + "%";
+      document.getElementById("baseOutCost").textContent = formatCurrency(baseState.cost, 0);
+
+      document.getElementById("scenarioOutVolume").innerHTML = `${formatNumber(scenarioState.volume,0)} <span class="mini-delta" id="deltaVolume">${formatSigned(volDeltaPct,1,"%")}</span>`;
+      document.getElementById("scenarioOutAht").innerHTML = `${formatNumber(scenarioState.aht,0)} sec <span class="mini-delta" id="deltaAht">${formatSigned(ahtDelta,0," sec")}</span>`;
+      document.getElementById("scenarioOutShrinkage").innerHTML = `${formatNumber(scenarioState.shrinkage,1)}% <span class="mini-delta" id="deltaShrinkage">${formatSigned(shrinkDelta,1," pts")}</span>`;
+      document.getElementById("scenarioOutHc").innerHTML = `${formatNumber(scenarioState.hc,0)} <span class="mini-delta" id="deltaHc">${formatSigned(hcDelta,0,"")}</span>`;
+      document.getElementById("scenarioOutReqHc").innerHTML = `${formatNumber(Math.ceil(scenarioState.requiredHc),0)} <span class="mini-delta" id="deltaReqHc">${formatSigned(reqHcDelta,0,"")}</span>`;
+      document.getElementById("scenarioOutSla").innerHTML = `${formatNumber(scenarioState.slaEstimate,1)}% <span class="mini-delta" id="deltaSla">${formatSigned(slaDelta,1," pts")}</span>`;
+      document.getElementById("scenarioOutCost").innerHTML = `${formatCurrency(scenarioState.cost,0)} <span class="mini-delta" id="deltaCost">${formatCompactCurrency(costDelta)}</span>`;
+
+      setDeltaHtml("deltaVolume", formatSigned(volDeltaPct,1,"%"), volDeltaPct, false);
+      setDeltaHtml("deltaAht", formatSigned(ahtDelta,0," sec"), ahtDelta, false);
+      setDeltaHtml("deltaShrinkage", formatSigned(shrinkDelta,1," pts"), shrinkDelta, false);
+      setDeltaHtml("deltaHc", formatSigned(hcDelta,0,""), hcDelta, true);
+      setDeltaHtml("deltaReqHc", formatSigned(reqHcDelta,0,""), reqHcDelta, false);
+      setDeltaHtml("deltaSla", formatSigned(slaDelta,1," pts"), slaDelta, true);
+      setDeltaHtml("deltaCost", formatCompactCurrency(costDelta), costDelta, false);
+    }
+
+    function renderHero(baseState, scenarioState) {
+      const slaDelta = scenarioState.slaEstimate - baseState.slaEstimate;
+      const hcGap = scenarioState.hcGap;
+      const costNeed = Math.max(0, hcGap) * scenarioState.costPerHc;
+      const riskText = scenarioState.riskScore >= 70 ? "High Risk" : scenarioState.riskScore >= 40 ? "Watch" : "Low Risk";
+      const riskClass = scenarioState.riskScore >= 70 ? "bad" : scenarioState.riskScore >= 40 ? "warn" : "good";
+
+      document.getElementById("heroRiskText").textContent = riskText;
+      document.getElementById("heroScenarioBadge").className = "delta " + riskClass;
+      document.getElementById("heroScenarioBadge").textContent = "Scenario Active";
+
+      document.getElementById("heroBaselineSla").textContent = formatNumber(baseState.slaEstimate,1) + "%";
+      document.getElementById("heroBaselineBadge").textContent = baseState.slaEstimate >= 80 ? "Stable" : "Watch";
+      document.getElementById("heroBaselineBadge").className = "delta " + (baseState.slaEstimate >= 80 ? "good" : "warn");
+
+      document.getElementById("heroScenarioSla").textContent = formatNumber(scenarioState.slaEstimate,1) + "%";
+      document.getElementById("heroScenarioSlaDelta").textContent = formatSigned(slaDelta,1," pts");
+      document.getElementById("heroScenarioSlaDelta").className = "delta " + (slaDelta >= 0 ? "good" : "bad");
+
+      document.getElementById("heroHcGap").textContent = formatSigned(Math.ceil(hcGap),0,"");
+      document.getElementById("heroHcGapBadge").textContent = hcGap > 0 ? "Required" : "Covered";
+      document.getElementById("heroHcGapBadge").className = "delta " + (hcGap > 0 ? "bad" : "good");
+
+      document.getElementById("heroCostImpact").textContent = formatCompactCurrency(costNeed);
+      document.getElementById("heroCostBadge").className = "delta " + (costNeed > 0 ? "bad" : "good");
+      document.getElementById("heroCostBadge").textContent = "Monthly";
+
+      let actionTitle = "Maintain Current Plan";
+      let actionText = "Scenario remains within a manageable operating range.";
+      if (hcGap > 10) {
+        actionTitle = "Add HC / Reduce AHT";
+        actionText = `Recover about ${Math.ceil(hcGap)} HC or improve efficiency to protect service.`;
+      } else if (hcGap > 0) {
+        actionTitle = "Minor Recovery Needed";
+        actionText = `A small staffing or efficiency adjustment should improve stability.`;
+      } else if (scenarioState.slaEstimate >= baseState.slaEstimate) {
+        actionTitle = "Scenario Improves Performance";
+        actionText = "This scenario appears stronger than baseline under the selected engine.";
+      }
+
+      document.getElementById("heroRecommendedAction").textContent = actionTitle;
+      document.getElementById("heroRecommendedText").textContent = actionText;
+      document.getElementById("heroSummaryText").textContent =
+        `Scenario SLA moves from ${formatNumber(baseState.slaEstimate,1)}% to ${formatNumber(scenarioState.slaEstimate,1)}%, while required HC moves from ${formatNumber(Math.ceil(baseState.requiredHc),0)} to ${formatNumber(Math.ceil(scenarioState.requiredHc),0)}.`;
+    }
+
+    function renderKpis(baseState, scenarioState) {
+      const reqHc = Math.ceil(scenarioState.requiredHc);
+      const hcGap = Math.ceil(scenarioState.hcGap);
+      const slaDelta = scenarioState.slaEstimate - baseState.slaEstimate;
+      const costNeed = Math.max(0, scenarioState.hcGap) * scenarioState.costPerHc;
+      const utilBase = baseState.hc > 0 ? (baseState.requiredHc / baseState.hc) * 100 : 0;
+      const utilScenario = scenarioState.hc > 0 ? (scenarioState.requiredHc / scenarioState.hc) * 100 : 0;
+      const utilImpact = utilScenario - utilBase;
+
+      document.getElementById("kpiReqHc").textContent = formatNumber(reqHc,0);
+      document.getElementById("kpiHcGap").textContent = formatSigned(hcGap,0,"");
+      document.getElementById("kpiSlaChange").textContent = formatSigned(slaDelta,1," pts");
+      document.getElementById("kpiCostChange").textContent = formatCompactCurrency(costNeed);
+      document.getElementById("kpiUtilization").textContent = formatSigned(utilImpact,1,"%");
+      document.getElementById("kpiRiskScore").textContent = `${formatNumber(round(scenarioState.riskScore,0),0)} / 100`;
+    }
+
+    function renderCharts(baseState, scenarioState) {
+      const baseSla = baseState.slaEstimate;
+      const scenarioSla = scenarioState.slaEstimate;
+
+      const volEffect = -(Math.max(0, ((scenarioState.volume - baseState.volume) / Math.max(baseState.volume,1)) * 20));
+      const ahtEffect = -(Math.max(0, ((scenarioState.aht - baseState.aht) / Math.max(baseState.aht,1)) * 18));
+      const shrinkEffect = -(Math.max(0, scenarioState.shrinkage - baseState.shrinkage) * 0.7);
+      const hcEffect = Math.max(0, scenarioState.hc - baseState.hc) * 0.35;
+
+      const maxEffect = Math.max(
+        Math.abs(volEffect), Math.abs(ahtEffect), Math.abs(shrinkEffect), Math.abs(hcEffect),
+        baseSla, scenarioSla, 1
+      );
+
+      function barHeight(val) {
+        return clamp((Math.abs(val) / maxEffect) * 140 + 10, 10, 150);
+      }
+
+      document.getElementById("wfBaseLabel").textContent = formatNumber(baseSla,1) + "%";
+      document.getElementById("wfVolLabel").textContent = formatSigned(volEffect,1);
+      document.getElementById("wfAhtLabel").textContent = formatSigned(ahtEffect,1);
+      document.getElementById("wfShrinkLabel").textContent = formatSigned(shrinkEffect,1);
+      document.getElementById("wfHcLabel").textContent = formatSigned(hcEffect,1);
+      document.getElementById("wfScenarioLabel").textContent = formatNumber(scenarioSla,1) + "%";
+
+      document.getElementById("wfBaseBar").style.height = `${barHeight(baseSla)}px`;
+      document.getElementById("wfVolBar").style.height = `${barHeight(volEffect)}px`;
+      document.getElementById("wfAhtBar").style.height = `${barHeight(ahtEffect)}px`;
+      document.getElementById("wfShrinkBar").style.height = `${barHeight(shrinkEffect)}px`;
+      document.getElementById("wfHcBar").style.height = `${barHeight(hcEffect)}px`;
+      document.getElementById("wfScenarioBar").style.height = `${barHeight(scenarioSla)}px`;
+
+      const maxHcChart = Math.max(
+        Math.ceil(baseState.requiredHc),
+        Math.ceil(scenarioState.requiredHc),
+        Math.ceil(scenarioState.hc),
+        Math.ceil(Math.max(scenarioState.hcGap, 0)),
+        1
+      );
+
+      function hcWidth(value) {
+        return clamp((value / maxHcChart) * 100, 0, 100);
+      }
+
+      document.getElementById("barBaseReq").style.width = hcWidth(Math.ceil(baseState.requiredHc)) + "%";
+      document.getElementById("barScenarioReq").style.width = hcWidth(Math.ceil(scenarioState.requiredHc)) + "%";
+      document.getElementById("barAvailableHc").style.width = hcWidth(Math.ceil(scenarioState.hc)) + "%";
+      document.getElementById("barHcGap").style.width = hcWidth(Math.ceil(Math.max(scenarioState.hcGap,0))) + "%";
+
+      document.getElementById("barBaseReqVal").textContent = formatNumber(Math.ceil(baseState.requiredHc),0);
+      document.getElementById("barScenarioReqVal").textContent = formatNumber(Math.ceil(scenarioState.requiredHc),0);
+      document.getElementById("barAvailableHcVal").textContent = formatNumber(Math.ceil(scenarioState.hc),0);
+      document.getElementById("barHcGapVal").textContent = formatNumber(Math.ceil(Math.max(scenarioState.hcGap,0)),0);
+
+      document.getElementById("gaugeValue").textContent = formatNumber(scenarioState.slaEstimate,1) + "%";
+      const needleRotation = clamp(((scenarioState.slaEstimate - 50) / 50) * 90, -88, 88);
+      document.getElementById("gaugeNeedle").style.transform = `translateX(-50%) rotate(${needleRotation}deg)`;
+
+      const gaugeBadge = document.getElementById("gaugeRiskBadge");
+      if (scenarioState.riskScore >= 70) gaugeBadge.textContent = "High Risk";
+      else if (scenarioState.riskScore >= 40) gaugeBadge.textContent = "Watch";
+      else gaugeBadge.textContent = "Low Risk";
+    }
+
+    function renderSensitivity(baseState, scenarioState) {
+      document.getElementById("sensAht10").textContent =
+        `HC gap is ${formatSigned(Math.ceil(scenarioState.hcGap),0,"")} under the current scenario`;
+      document.getElementById("sensShrink2").textContent =
+        `SLA is ${formatNumber(scenarioState.slaEstimate,1)}% under current assumptions`;
+      document.getElementById("sensHc8").textContent =
+        `Adding HC would reduce the current gap from ${formatSigned(Math.ceil(scenarioState.hcGap),0,"")}`;
+      document.getElementById("sensVol5").textContent =
+        `Positive cost need is ${formatCompactCurrency(Math.max(0, scenarioState.hcGap) * scenarioState.costPerHc)}`;
+      document.getElementById("sensCombo").textContent =
+        `Current engine suggests required HC around ${formatNumber(Math.ceil(scenarioState.requiredHc),0)}`;
+    }
+
+    function renderInsights(baseState, scenarioState, engine) {
+      const hcGap = Math.ceil(scenarioState.hcGap);
+      const costNeed = Math.max(0, hcGap) * scenarioState.costPerHc;
+      const volumeDeltaPct = baseState.volume === 0 ? 0 : ((scenarioState.volume - baseState.volume) / baseState.volume) * 100;
+      const ahtDelta = scenarioState.aht - baseState.aht;
+      const shrinkDelta = scenarioState.shrinkage - baseState.shrinkage;
+
+      document.getElementById("insightSummary").textContent =
+        `${engine} engine shows required HC moving from ${formatNumber(Math.ceil(baseState.requiredHc),0)} to ${formatNumber(Math.ceil(scenarioState.requiredHc),0)}, while SLA moves from ${formatNumber(baseState.slaEstimate,1)}% to ${formatNumber(scenarioState.slaEstimate,1)}%. Estimated cost need to close a positive gap is ${formatCurrency(costNeed,0)}.`;
+
+      document.getElementById("driver1").textContent =
+        volumeDeltaPct > 0
+          ? `Demand is up ${formatNumber(volumeDeltaPct,1)}%, increasing staffing pressure.`
+          : `Demand is stable or lower than baseline.`;
+
+      document.getElementById("driver2").textContent =
+        ahtDelta > 0
+          ? `AHT is up by ${formatNumber(ahtDelta,0)} seconds, reducing throughput.`
+          : `AHT is stable or improved, which supports service performance.`;
+
+      document.getElementById("driver3").textContent =
+        shrinkDelta > 0
+          ? `Shrinkage is higher than baseline, reducing productive capacity.`
+          : `Shrinkage is stable or better than baseline.`;
+
+      document.getElementById("action1").textContent =
+        hcGap > 0 ? `Close about ${formatNumber(hcGap,0)} HC to defend target service.` : `No extra HC is currently needed under this scenario.`;
+
+      document.getElementById("action2").textContent =
+        `Use efficiency actions to reduce AHT where possible.`;
+
+      document.getElementById("action3").textContent =
+        `Stabilize shrinkage and protect productive hours.`;
+
+      document.getElementById("action4").textContent =
+        `Use temporary coverage levers only as short-term containment.`;
+
+      document.getElementById("noteChip1").textContent =
+        scenarioState.riskScore >= 70 ? "High Service Risk" :
+        scenarioState.riskScore >= 40 ? "Watch Level Risk" :
+        "Low Service Risk";
+
+      document.getElementById("noteChip2").textContent =
+        hcGap > 0 ? "Staffing Shortfall" : "Staffing Covered";
+
+      document.getElementById("noteChip3").textContent =
+        costNeed > 0 ? "Cost Exposure" : "No Extra Cost Need";
+
+      document.getElementById("decisionNote").textContent =
+        hcGap > 0
+          ? `Best balance is usually a mix of staffing recovery and efficiency improvement.`
+          : `Scenario appears supportable under the current engine assumptions.`;
+
+      document.getElementById("assumptionText").textContent =
+        engine === "Quick Planning"
+          ? "Quick Planning uses workload, shrinkage, occupancy, and productive HC to estimate required staffing and directional SLA."
+          : engine === "Interval Based"
+          ? "Interval Based aggregates interval-level workload and effective capacity across the uploaded or edited interval table."
+          : "Erlang Style uses single-interval queue logic with contacts, AHT, answer time target, and service target.";
+    }
+
+    function renderAll(baseState, scenarioState, engineLabel) {
+      renderComparison(baseState, scenarioState);
+      renderHero(baseState, scenarioState);
+      renderKpis(baseState, scenarioState);
+      renderCharts(baseState, scenarioState);
+      renderSensitivity(baseState, scenarioState);
+      renderInsights(baseState, scenarioState, engineLabel);
+      document.getElementById("gaugeEngineNote").textContent =
+        `${engineLabel} engine is currently active for this estimate.`;
+    }
+
+    function recalculate() {
+      refreshEngineSections();
+      const engine = document.getElementById("engineSelector").value;
+
+      if (engine === "quick") {
+        const { baseState, scenarioState } = getQuickStates();
+        renderAll(baseState, scenarioState, "Quick Planning");
+      }
+
+      if (engine === "interval") {
+        const { baseState, scenarioState } = getIntervalStates();
+        updateIntervalMiniSummary();
+        renderAll(baseState, scenarioState, "Interval Based");
+      }
+
+      if (engine === "erlang") {
+        const { baseState, scenarioState } = getErlangStates();
+        renderAll(baseState, scenarioState, "Erlang Style");
+      }
+    }
+
+    function applyPreset(type) {
+      const baseVolume = num(document.getElementById("baseVolume").value, 12500);
+      const baseAht = num(document.getElementById("baseAht").value, 420);
+      const baseShrink = num(document.getElementById("baseShrinkage").value, 28);
+      const baseHc = num(document.getElementById("baseHc").value, 145);
+      const baseCost = num(document.getElementById("baseCostPerHc").value, 2200);
+
+      metricModes.volume = "absolute";
+      metricModes.aht = "absolute";
+      metricModes.shrinkage = "absolute";
+      metricModes.hc = "absolute";
+      metricModes.cost = "absolute";
+      refreshModeUI();
+
+      if (type === "demandSpike") {
+        document.getElementById("scenarioVolumeInput").value = round(baseVolume * 1.12, 0);
+        document.getElementById("scenarioAhtInput").value = baseAht;
+        document.getElementById("scenarioShrinkageInput").value = baseShrink;
+        document.getElementById("scenarioHcInput").value = baseHc;
+        document.getElementById("scenarioCostInput").value = baseCost;
+      }
+      if (type === "ahtIncrease") {
+        document.getElementById("scenarioVolumeInput").value = baseVolume;
+        document.getElementById("scenarioAhtInput").value = baseAht + 25;
+        document.getElementById("scenarioShrinkageInput").value = baseShrink;
+        document.getElementById("scenarioHcInput").value = baseHc;
+        document.getElementById("scenarioCostInput").value = baseCost;
+      }
+      if (type === "shrinkageShock") {
+        document.getElementById("scenarioVolumeInput").value = baseVolume;
+        document.getElementById("scenarioAhtInput").value = baseAht;
+        document.getElementById("scenarioShrinkageInput").value = round(baseShrink + 5, 1);
+        document.getElementById("scenarioHcInput").value = baseHc;
+        document.getElementById("scenarioCostInput").value = baseCost;
+      }
+      if (type === "understaffing") {
+        document.getElementById("scenarioVolumeInput").value = baseVolume;
+        document.getElementById("scenarioAhtInput").value = baseAht;
+        document.getElementById("scenarioShrinkageInput").value = baseShrink;
+        document.getElementById("scenarioHcInput").value = Math.max(0, baseHc - 10);
+        document.getElementById("scenarioCostInput").value = baseCost;
+      }
+      if (type === "efficiencyGain") {
+        document.getElementById("scenarioVolumeInput").value = baseVolume;
+        document.getElementById("scenarioAhtInput").value = Math.max(1, baseAht - 15);
+        document.getElementById("scenarioShrinkageInput").value = Math.max(0, round(baseShrink - 2, 1));
+        document.getElementById("scenarioHcInput").value = baseHc;
+        document.getElementById("scenarioCostInput").value = baseCost;
+      }
+      if (type === "hiringBoost") {
+        document.getElementById("scenarioVolumeInput").value = baseVolume;
+        document.getElementById("scenarioAhtInput").value = baseAht;
+        document.getElementById("scenarioShrinkageInput").value = baseShrink;
+        document.getElementById("scenarioHcInput").value = baseHc + 10;
+        document.getElementById("scenarioCostInput").value = baseCost;
+      }
+
+      highlightPreset(type);
+      recalculate();
+    }
+
+    function highlightPreset(type) {
+      document.querySelectorAll(".preset").forEach(p => {
+        p.style.borderColor = "var(--border)";
+        p.style.background = "#fff";
+        if (p.dataset.preset === type) {
+          p.style.borderColor = "#9ec0fb";
+          p.style.background = "#f7fbff";
+        }
+      });
+    }
+
+    function refreshModeUI() {
+      document.querySelectorAll(".pill").forEach(pill => {
+        const metric = pill.dataset.metric;
+        const mode = pill.dataset.mode;
+        pill.classList.toggle("active", metricModes[metric] === mode);
+      });
+    }
 
     function setupScrollTrack(trackId) {
       const track = document.getElementById(trackId);
@@ -2000,9 +3085,9 @@
       }
 
       buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener("click", () => {
           const dir = Number(btn.dataset.dir);
-          track.scrollBy({ left: dir * scrollAmount, behavior: 'smooth' });
+          track.scrollBy({ left: dir * scrollAmount, behavior: "smooth" });
         });
       });
 
@@ -2010,24 +3095,24 @@
       let startX = 0;
       let scrollLeft = 0;
 
-      track.addEventListener('mousedown', (e) => {
+      track.addEventListener("mousedown", (e) => {
         isDown = true;
-        track.classList.add('dragging');
+        track.classList.add("dragging");
         startX = e.pageX - track.offsetLeft;
         scrollLeft = track.scrollLeft;
       });
 
-      track.addEventListener('mouseleave', () => {
+      track.addEventListener("mouseleave", () => {
         isDown = false;
-        track.classList.remove('dragging');
+        track.classList.remove("dragging");
       });
 
-      track.addEventListener('mouseup', () => {
+      track.addEventListener("mouseup", () => {
         isDown = false;
-        track.classList.remove('dragging');
+        track.classList.remove("dragging");
       });
 
-      track.addEventListener('mousemove', (e) => {
+      track.addEventListener("mousemove", (e) => {
         if (!isDown) return;
         e.preventDefault();
         const x = e.pageX - track.offsetLeft;
@@ -2035,13 +3120,201 @@
         track.scrollLeft = scrollLeft - walk;
       });
 
-      track.addEventListener('scroll', updateButtons);
-      window.addEventListener('resize', updateButtons);
+      track.addEventListener("scroll", updateButtons);
+      window.addEventListener("resize", updateButtons);
       updateButtons();
     }
 
-    setupScrollTrack('impactScroll');
-    setupScrollTrack('chartScroll');
+    function attachGeneralListeners() {
+      document.querySelectorAll(".pill").forEach(pill => {
+        pill.addEventListener("click", () => {
+          metricModes[pill.dataset.metric] = pill.dataset.mode;
+          refreshModeUI();
+          recalculate();
+        });
+      });
+
+      document.querySelectorAll(".preset").forEach(card => {
+        card.addEventListener("click", () => applyPreset(card.dataset.preset));
+      });
+
+      [
+        "engineSelector",
+        "baseVolume","baseAht","baseShrinkage","baseHc","baseSlaTarget","baseOccupancy","planningView","baseCostPerHc",
+        "scenarioVolumeInput","scenarioAhtInput","scenarioShrinkageInput","scenarioHcInput","scenarioCostInput",
+        "intervalSize","intervalCostPerHc","intervalShrinkage","intervalSlaTarget","intervalOccupancy","intervalBaseHc","intervalScenarioHc","intervalBaseData","intervalScenarioData",
+        "erlangBaseContacts","erlangScenarioContacts","erlangBaseAht","erlangScenarioAht","erlangIntervalSize","erlangAnsTime","erlangSlaTarget","erlangShrinkage","erlangBaseHc","erlangScenarioHc","erlangCostPerHc",
+        "riskSensitivity","compareAgainst"
+      ].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.addEventListener("input", recalculate);
+          el.addEventListener("change", recalculate);
+        }
+      });
+
+      document.getElementById("runBtn").addEventListener("click", recalculate);
+      document.getElementById("runSimulationBtn").addEventListener("click", recalculate);
+
+      document.getElementById("swapBtn").addEventListener("click", () => {
+        const engine = document.getElementById("engineSelector").value;
+
+        if (engine === "quick") {
+          const fields = [
+            ["baseVolume","scenarioVolumeInput"],
+            ["baseAht","scenarioAhtInput"],
+            ["baseShrinkage","scenarioShrinkageInput"],
+            ["baseHc","scenarioHcInput"],
+            ["baseCostPerHc","scenarioCostInput"]
+          ];
+          fields.forEach(([a,b]) => {
+            const temp = document.getElementById(a).value;
+            document.getElementById(a).value = document.getElementById(b).value;
+            document.getElementById(b).value = temp;
+          });
+        }
+
+        if (engine === "interval") {
+          const tempRows = JSON.parse(JSON.stringify(baselineIntervalRows));
+          baselineIntervalRows = JSON.parse(JSON.stringify(scenarioIntervalRows));
+          scenarioIntervalRows = tempRows;
+
+          const tempHc = document.getElementById("intervalBaseHc").value;
+          document.getElementById("intervalBaseHc").value = document.getElementById("intervalScenarioHc").value;
+          document.getElementById("intervalScenarioHc").value = tempHc;
+
+          renderIntervalTable("base");
+          renderIntervalTable("scenario");
+          syncIntervalText("base");
+          syncIntervalText("scenario");
+        }
+
+        if (engine === "erlang") {
+          const ids = [
+            ["erlangBaseContacts","erlangScenarioContacts"],
+            ["erlangBaseAht","erlangScenarioAht"],
+            ["erlangBaseHc","erlangScenarioHc"]
+          ];
+          ids.forEach(([a,b]) => {
+            const temp = document.getElementById(a).value;
+            document.getElementById(a).value = document.getElementById(b).value;
+            document.getElementById(b).value = temp;
+          });
+        }
+
+        recalculate();
+      });
+
+      document.getElementById("duplicateBtn").addEventListener("click", () => {
+        alert("Scenario duplicated in the current session values. You can connect storage later.");
+      });
+
+      document.getElementById("saveScenarioBtn").addEventListener("click", () => {
+        const payload = {};
+        document.querySelectorAll("input, select, textarea").forEach(el => {
+          if (el.id) payload[el.id] = el.value;
+        });
+        payload.metricModes = metricModes;
+        payload.baselineIntervalRows = baselineIntervalRows;
+        payload.scenarioIntervalRows = scenarioIntervalRows;
+        localStorage.setItem("stratosScenarioLabFinal", JSON.stringify(payload));
+        alert("Scenario saved locally in your browser.");
+      });
+
+      document.getElementById("loadExampleBtn").addEventListener("click", () => {
+        document.getElementById("engineSelector").value = "quick";
+        refreshEngineSections();
+        applyPreset("demandSpike");
+      });
+
+      document.getElementById("resetBtn").addEventListener("click", () => {
+        location.reload();
+      });
+
+      document.getElementById("exportPdfBtn").addEventListener("click", () => {
+        window.print();
+      });
+
+      document.getElementById("exportPptBtn").addEventListener("click", () => {
+        alert("PPT export button is UI-ready. Connect your export engine next.");
+      });
+
+      // interval buttons
+      document.getElementById("uploadBaseIntervalBtn").addEventListener("click", () => {
+        document.getElementById("intervalBaseFile").click();
+      });
+      document.getElementById("uploadScenarioIntervalBtn").addEventListener("click", () => {
+        document.getElementById("intervalScenarioFile").click();
+      });
+      document.getElementById("intervalBaseFile").addEventListener("change", (e) => {
+        handleIntervalFile(e.target.files[0], "base");
+      });
+      document.getElementById("intervalScenarioFile").addEventListener("change", (e) => {
+        handleIntervalFile(e.target.files[0], "scenario");
+      });
+
+      document.getElementById("loadBaseTextBtn").addEventListener("click", () => loadIntervalTextToTable("base"));
+      document.getElementById("loadScenarioTextBtn").addEventListener("click", () => loadIntervalTextToTable("scenario"));
+      document.getElementById("addBaseRowBtn").addEventListener("click", () => addIntervalRow("base"));
+      document.getElementById("addScenarioRowBtn").addEventListener("click", () => addIntervalRow("scenario"));
+
+      document.getElementById("copyBaseToScenarioBtn").addEventListener("click", () => {
+        scenarioIntervalRows = JSON.parse(JSON.stringify(baselineIntervalRows));
+        renderIntervalTable("scenario");
+        syncIntervalText("scenario");
+        updateIntervalMiniSummary();
+        recalculate();
+      });
+
+      document.getElementById("baselineSortBtn").addEventListener("click", () => {
+        sortRowsByTime(baselineIntervalRows);
+        renderIntervalTable("base");
+        syncIntervalText("base");
+        recalculate();
+      });
+
+      document.getElementById("scenarioSortBtn").addEventListener("click", () => {
+        sortRowsByTime(scenarioIntervalRows);
+        renderIntervalTable("scenario");
+        syncIntervalText("scenario");
+        recalculate();
+      });
+
+      document.getElementById("baselineSyncBtn").addEventListener("click", () => syncIntervalText("base"));
+      document.getElementById("scenarioSyncBtn").addEventListener("click", () => syncIntervalText("scenario"));
+    }
+
+    setupScrollTrack("impactScroll");
+    setupScrollTrack("chartScroll");
+    attachGeneralListeners();
+
+    window.addEventListener("load", () => {
+      try {
+        const saved = localStorage.getItem("stratosScenarioLabFinal");
+        if (saved) {
+          const data = JSON.parse(saved);
+          Object.keys(data).forEach(key => {
+            const el = document.getElementById(key);
+            if (el) el.value = data[key];
+          });
+          if (data.metricModes) Object.assign(metricModes, data.metricModes);
+          if (Array.isArray(data.baselineIntervalRows)) baselineIntervalRows = data.baselineIntervalRows;
+          if (Array.isArray(data.scenarioIntervalRows)) scenarioIntervalRows = data.scenarioIntervalRows;
+        }
+      } catch (e) {}
+
+      if (!baselineIntervalRows.length) baselineIntervalRows = parseIntervalRows(document.getElementById("intervalBaseData").value);
+      if (!scenarioIntervalRows.length) scenarioIntervalRows = parseIntervalRows(document.getElementById("intervalScenarioData").value);
+
+      renderIntervalTable("base");
+      renderIntervalTable("scenario");
+      syncIntervalText("base");
+      syncIntervalText("scenario");
+      refreshModeUI();
+      refreshEngineSections();
+      updateIntervalMiniSummary();
+      recalculate();
+    });
   </script>
 </body>
 </html>
