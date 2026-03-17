@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Stratos Scenario Lab - Final</title>
- <style>
+<style>
   :root{
     --bg:#020816;
     --bg-2:#06132a;
@@ -48,22 +48,26 @@
   }
 
   body{
-    padding:22px 16px 38px;
+    padding:6px;
+    overflow-x:hidden;
   }
 
   .app{
-    max-width:1400px;
-    margin:0 auto;
+    width:100%;
+    max-width:none;
+    margin:0;
+    padding:0 8px 18px;
   }
 
   .page-header{
     text-align:center;
-    margin-bottom:18px;
+    margin-bottom:12px;
+    padding:8px 8px 4px;
   }
 
   .page-title{
     margin:0;
-    font-size:28px;
+    font-size:clamp(22px, 3.8vw, 44px);
     font-weight:800;
     letter-spacing:-0.03em;
     color:#ffffff;
@@ -75,7 +79,7 @@
     font-size:13px;
     color:var(--muted);
     line-height:1.55;
-    max-width:860px;
+    max-width:1100px;
     margin-left:auto;
     margin-right:auto;
   }
@@ -135,7 +139,7 @@
 
   .hero-grid{
     display:grid;
-    grid-template-columns:repeat(6, 1fr);
+    grid-template-columns:repeat(6, minmax(0, 1fr));
     gap:12px;
     margin-bottom:16px;
   }
@@ -205,7 +209,7 @@
 
   .sticky{
     position:sticky;
-    top:14px;
+    top:10px;
   }
 
   .section{
@@ -500,9 +504,10 @@
 
   .workspace{
     display:grid;
-    grid-template-columns:390px minmax(0, 1fr) 300px;
+    grid-template-columns:minmax(360px, 430px) minmax(0, 1fr) minmax(290px, 350px);
     gap:16px;
     align-items:start;
+    width:100%;
   }
 
   .comparison-grid{
