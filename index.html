@@ -1,0 +1,2047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stratos Scenario Lab</title>
+  <style>
+    :root{
+      --bg:#eef3f8;
+      --panel:#ffffff;
+      --panel-soft:#f7fafe;
+      --section-head:#f3f7fc;
+      --border:#d9e3ef;
+      --border-strong:#c7d5e6;
+      --text:#122033;
+      --muted:#5f7288;
+      --soft:#7c8ea3;
+
+      --primary:#357ae8;
+      --primary-dark:#2566d3;
+      --primary-soft:#eaf2ff;
+
+      --green:#22a06b;
+      --green-soft:#e9f8f0;
+      --amber:#d89b1d;
+      --amber-soft:#fff6e4;
+      --red:#d9534f;
+      --red-soft:#fdeceb;
+
+      --shadow:0 8px 24px rgba(15, 34, 58, 0.06);
+      --radius-xl:14px;
+      --radius-lg:12px;
+      --radius-md:10px;
+      --radius-sm:8px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{
+      margin:0;
+      padding:0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+
+    body{
+      padding:28px 18px 42px;
+    }
+
+    .app{
+      max-width:1320px;
+      margin:0 auto;
+    }
+
+    .page-header{
+      text-align:center;
+      margin-bottom:16px;
+    }
+
+    .page-title{
+      margin:0;
+      font-size:24px;
+      font-weight:800;
+      letter-spacing:-0.02em;
+    }
+
+    .page-subtitle{
+      margin-top:6px;
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.45;
+    }
+
+    .top-actions{
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:14px;
+    }
+
+    .btn{
+      border:1px solid #2f6fda;
+      background:#357ae8;
+      color:#fff;
+      padding:9px 14px;
+      border-radius:6px;
+      font-size:12px;
+      font-weight:700;
+      cursor:pointer;
+      transition:.16s ease;
+      line-height:1.2;
+    }
+
+    .btn:hover{
+      background:#2566d3;
+      border-color:#2566d3;
+      transform:translateY(-1px);
+    }
+
+    .btn.secondary{
+      background:#fff;
+      color:var(--text);
+      border:1px solid var(--border-strong);
+    }
+
+    .btn.secondary:hover{
+      background:#f7fbff;
+      border-color:#b8c9de;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:repeat(6, 1fr);
+      gap:12px;
+      margin-bottom:16px;
+    }
+
+    .hero-card{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:12px;
+      box-shadow:var(--shadow);
+      padding:14px;
+      min-height:104px;
+    }
+
+    .hero-card.primary{
+      background:linear-gradient(180deg, #ffffff, #f8fbff);
+      border-color:#d6e4f6;
+    }
+
+    .label{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:var(--muted);
+      font-weight:800;
+    }
+
+    .metric{
+      margin-top:10px;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:8px;
+    }
+
+    .metric .value{
+      font-size:26px;
+      line-height:1.05;
+      font-weight:800;
+      letter-spacing:-0.02em;
+    }
+
+    .metric .value.sm{
+      font-size:20px;
+      line-height:1.2;
+    }
+
+    .subtext{
+      margin-top:8px;
+      font-size:12px;
+      line-height:1.45;
+      color:var(--soft);
+    }
+
+    .delta{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:5px 9px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:800;
+      white-space:nowrap;
+      border:1px solid transparent;
+    }
+
+    .delta.good{
+      color:var(--green);
+      background:var(--green-soft);
+      border-color:#cbeedc;
+    }
+
+    .delta.warn{
+      color:var(--amber);
+      background:var(--amber-soft);
+      border-color:#f2dfad;
+    }
+
+    .delta.bad{
+      color:var(--red);
+      background:var(--red-soft);
+      border-color:#f2c4c1;
+    }
+
+    .workspace{
+      display:grid;
+      grid-template-columns:330px minmax(0, 1fr) 290px;
+      gap:16px;
+      align-items:start;
+    }
+
+    .panel{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:14px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel-header{
+      padding:14px 16px;
+      border-bottom:1px solid var(--border);
+      background:#fff;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+
+    .panel-title{
+      margin:0;
+      font-size:16px;
+      font-weight:800;
+    }
+
+    .panel-subtitle{
+      margin-top:4px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .panel-body{
+      padding:14px;
+    }
+
+    .sticky{
+      position:sticky;
+      top:14px;
+    }
+
+    .section{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:12px;
+      overflow:hidden;
+      margin-bottom:12px;
+    }
+
+    .section:last-child{
+      margin-bottom:0;
+    }
+
+    .section-head{
+      background:var(--section-head);
+      border-bottom:1px solid var(--border);
+      padding:12px 14px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+    }
+
+    .section-head h4{
+      margin:0;
+      font-size:14px;
+      font-weight:800;
+    }
+
+    .section-head span{
+      font-size:11px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      color:var(--muted);
+    }
+
+    .section-body{
+      padding:14px;
+      background:#fff;
+    }
+
+    .field-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      min-width:0;
+    }
+
+    .field.full{
+      grid-column:1 / -1;
+    }
+
+    .field label{
+      font-size:12px;
+      color:#334861;
+      font-weight:700;
+    }
+
+    .field input,
+    .field select{
+      width:100%;
+      min-width:0;
+      padding:10px 12px;
+      border-radius:10px;
+      border:1px solid var(--border-strong);
+      background:#fff;
+      color:var(--text);
+      outline:none;
+      font-size:14px;
+      transition:.16s ease;
+    }
+
+    .field input:focus,
+    .field select:focus{
+      border-color:#8bb5ff;
+      box-shadow:0 0 0 3px rgba(53,122,232,.12);
+    }
+
+    .hint{
+      font-size:11px;
+      line-height:1.35;
+      color:var(--soft);
+    }
+
+    .scenario-row{
+      border:1px solid var(--border);
+      border-radius:12px;
+      background:#fff;
+      padding:12px;
+      margin-bottom:12px;
+    }
+
+    .scenario-row:last-child{
+      margin-bottom:0;
+    }
+
+    .scenario-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+      margin-bottom:10px;
+    }
+
+    .scenario-name{
+      font-size:13px;
+      font-weight:800;
+    }
+
+    .baseline-pill{
+      padding:5px 8px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:700;
+      color:#456179;
+      background:#edf4fb;
+      border:1px solid #d4e2f0;
+      white-space:nowrap;
+      flex-shrink:0;
+    }
+
+    .inline-pills{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-bottom:10px;
+    }
+
+    .pill{
+      padding:7px 11px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:#fff;
+      color:var(--muted);
+      font-size:11px;
+      font-weight:800;
+      cursor:pointer;
+      line-height:1.1;
+    }
+
+    .pill.active{
+      background:var(--primary-soft);
+      border-color:#bfd5ff;
+      color:var(--primary-dark);
+    }
+
+    .scenario-controls{
+      display:grid;
+      grid-template-columns:minmax(0, 1fr) 92px;
+      gap:10px;
+      align-items:center;
+    }
+
+    .scenario-controls input{
+      width:100%;
+      min-width:0;
+      padding:10px 10px;
+      border-radius:0;
+      border:1px solid #666;
+      background:#fff;
+      color:#111;
+      font-size:14px;
+      height:34px;
+    }
+
+    .scenario-controls input:focus{
+      outline:none;
+      border-color:#357ae8;
+      box-shadow:none;
+    }
+
+    .preset-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .preset{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:12px;
+      cursor:pointer;
+      transition:.16s ease;
+    }
+
+    .preset:hover{
+      border-color:#b8cff5;
+      background:#f9fbff;
+      transform:translateY(-1px);
+    }
+
+    .preset strong{
+      display:block;
+      margin-bottom:5px;
+      font-size:13px;
+    }
+
+    .preset span{
+      display:block;
+      font-size:11px;
+      line-height:1.4;
+      color:var(--muted);
+    }
+
+    .stack-actions{
+      display:grid;
+      gap:8px;
+      margin-top:6px;
+    }
+
+    .chip-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:#f8fbff;
+      color:#486179;
+      font-size:11px;
+      font-weight:800;
+      white-space:nowrap;
+    }
+
+    .comparison-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-bottom:12px;
+    }
+
+    .compare-card{
+      border:1px solid var(--border);
+      border-radius:12px;
+      overflow:hidden;
+      background:#fff;
+    }
+
+    .compare-head{
+      padding:12px 14px;
+      border-bottom:1px solid var(--border);
+      background:var(--section-head);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+    }
+
+    .compare-head h3{
+      margin:0;
+      font-size:15px;
+      font-weight:800;
+    }
+
+    .status-badge{
+      padding:5px 9px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:#fff;
+      color:var(--muted);
+      font-size:11px;
+      font-weight:800;
+      white-space:nowrap;
+    }
+
+    .metric-list{
+      padding:8px 14px 12px;
+    }
+
+    .metric-row{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:10px;
+      padding:11px 0;
+      border-bottom:1px dashed #d8e3f0;
+    }
+
+    .metric-row:last-child{
+      border-bottom:none;
+    }
+
+    .metric-name{
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .metric-val{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:14px;
+      font-weight:800;
+      text-align:right;
+    }
+
+    .mini-delta{
+      padding:4px 7px;
+      border-radius:999px;
+      font-size:10px;
+      font-weight:800;
+      white-space:nowrap;
+    }
+
+    .mini-delta.good{
+      color:var(--green);
+      background:var(--green-soft);
+    }
+
+    .mini-delta.warn{
+      color:var(--amber);
+      background:var(--amber-soft);
+    }
+
+    .mini-delta.bad{
+      color:var(--red);
+      background:var(--red-soft);
+    }
+
+    .scroll-section{
+      margin-bottom:12px;
+    }
+
+    .scroll-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:8px;
+    }
+
+    .scroll-hint{
+      font-size:11px;
+      color:var(--soft);
+      font-weight:700;
+    }
+
+    .scroll-controls{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      flex-shrink:0;
+    }
+
+    .scroll-btn{
+      width:30px;
+      height:30px;
+      border-radius:999px;
+      border:1px solid var(--border-strong);
+      background:#fff;
+      color:#3c5672;
+      font-size:16px;
+      font-weight:800;
+      line-height:1;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      transition:.16s ease;
+      user-select:none;
+    }
+
+    .scroll-btn:hover{
+      background:#f7fbff;
+      border-color:#9fbbe6;
+      color:var(--primary-dark);
+    }
+
+    .scroll-btn:disabled{
+      opacity:.45;
+      cursor:not-allowed;
+      transform:none;
+    }
+
+    .scroll-track{
+      overflow-x:auto;
+      overflow-y:hidden;
+      scroll-behavior:smooth;
+      padding-bottom:6px;
+      cursor:grab;
+      scrollbar-width:thin;
+      scrollbar-color:#c9d7e6 transparent;
+    }
+
+    .scroll-track.dragging{
+      cursor:grabbing;
+      scroll-behavior:auto;
+      user-select:none;
+    }
+
+    .scroll-track::-webkit-scrollbar{
+      height:6px;
+    }
+
+    .scroll-track::-webkit-scrollbar-thumb{
+      background:#c9d7e6;
+      border-radius:10px;
+    }
+
+    .impact-grid{
+      display:flex;
+      gap:12px;
+      min-width:max-content;
+    }
+
+    .impact-card{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:14px;
+      min-height:138px;
+      width:180px;
+      flex:0 0 auto;
+      overflow:hidden;
+    }
+
+    .impact-card .big{
+      margin-top:10px;
+      font-size:24px;
+      line-height:1.05;
+      font-weight:800;
+      letter-spacing:-0.02em;
+      word-break:break-word;
+    }
+
+    .impact-card .small{
+      margin-top:8px;
+      color:var(--soft);
+      font-size:12px;
+      line-height:1.45;
+    }
+
+    .chart-grid{
+      display:flex;
+      gap:12px;
+      min-width:max-content;
+    }
+
+    .chart-card,
+    .sensitivity-card,
+    .right-card,
+    .info-card{
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:12px;
+      overflow:hidden;
+    }
+
+    .chart-card{
+      flex:0 0 auto;
+    }
+
+    .chart-card.wide{
+      width:420px;
+    }
+
+    .chart-card.medium{
+      width:320px;
+    }
+
+    .chart-card.gauge-card{
+      width:340px;
+    }
+
+    .chart-head,
+    .info-head{
+      padding:12px 14px;
+      border-bottom:1px solid var(--border);
+      background:var(--section-head);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+    }
+
+    .chart-head h3,
+    .info-head h3{
+      margin:0;
+      font-size:14px;
+      font-weight:800;
+    }
+
+    .chart-body,
+    .info-body{
+      padding:14px;
+    }
+
+    .waterfall{
+      display:flex;
+      align-items:flex-end;
+      gap:12px;
+      height:220px;
+    }
+
+    .wf-col{
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:8px;
+      min-width:0;
+    }
+
+    .wf-bar-wrap{
+      width:100%;
+      height:165px;
+      display:flex;
+      align-items:flex-end;
+    }
+
+    .wf-bar{
+      width:100%;
+      border-radius:10px 10px 5px 5px;
+      background:linear-gradient(180deg, #7fb0ff, #357ae8);
+    }
+
+    .wf-bar.negative{
+      background:linear-gradient(180deg, #ee8d88, #d9534f);
+    }
+
+    .wf-bar.warning{
+      background:linear-gradient(180deg, #efca72, #d89b1d);
+    }
+
+    .wf-value{
+      font-size:12px;
+      font-weight:800;
+      white-space:nowrap;
+    }
+
+    .wf-label{
+      font-size:11px;
+      color:var(--muted);
+      text-align:center;
+      line-height:1.3;
+    }
+
+    .bar-chart{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      padding-top:2px;
+    }
+
+    .bar-row{
+      display:grid;
+      grid-template-columns:110px minmax(0,1fr) 52px;
+      gap:12px;
+      align-items:center;
+    }
+
+    .bar-row label{
+      font-size:12px;
+      font-weight:700;
+      color:var(--muted);
+    }
+
+    .bar-track{
+      height:14px;
+      border-radius:999px;
+      background:#edf3fb;
+      overflow:hidden;
+      border:1px solid #d7e3f0;
+    }
+
+    .bar-fill{
+      height:100%;
+      border-radius:999px;
+      background:linear-gradient(90deg, #6ca3ff, #357ae8);
+    }
+
+    .bar-fill.alt{
+      background:linear-gradient(90deg, #5fc9d8, #22b8cf);
+    }
+
+    .bar-fill.warn{
+      background:linear-gradient(90deg, #efca72, #d89b1d);
+    }
+
+    .bar-val{
+      text-align:right;
+      font-size:12px;
+      font-weight:800;
+    }
+
+    .gauge-wrap{
+      display:grid;
+      place-items:center;
+      padding:4px 0 2px;
+      min-height:240px;
+    }
+
+    .gauge-box{
+      position:relative;
+      width:240px;
+      max-width:100%;
+      aspect-ratio:1/1;
+    }
+
+    .gauge{
+      width:100%;
+      aspect-ratio:1/1;
+      border-radius:50%;
+      background:
+        conic-gradient(from 180deg, #22a06b 0 36%, #d89b1d 36% 68%, #d9534f 68% 100%);
+      mask: radial-gradient(circle at center, transparent 0 54%, #000 55%);
+      -webkit-mask: radial-gradient(circle at center, transparent 0 54%, #000 55%);
+    }
+
+    .gauge-hole{
+      position:absolute;
+      inset:18%;
+      border-radius:50%;
+      background:#fff;
+      border:1px solid var(--border);
+    }
+
+    .needle{
+      position:absolute;
+      width:4px;
+      height:96px;
+      background:#2d4260;
+      left:50%;
+      bottom:50%;
+      transform:translateX(-50%) rotate(52deg);
+      transform-origin:bottom center;
+      border-radius:999px;
+      z-index:2;
+    }
+
+    .needle::after{
+      content:"";
+      position:absolute;
+      left:50%;
+      bottom:-8px;
+      transform:translateX(-50%);
+      width:16px;
+      height:16px;
+      border-radius:50%;
+      background:var(--primary);
+    }
+
+    .gauge-center{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      z-index:3;
+      padding:20px;
+    }
+
+    .gauge-value{
+      font-size:26px;
+      font-weight:800;
+      line-height:1;
+    }
+
+    .gauge-text{
+      margin-top:6px;
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.35;
+    }
+
+    .table-wrap{
+      overflow:auto;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+    }
+
+    th,td{
+      padding:12px 14px;
+      text-align:left;
+      border-bottom:1px solid var(--border);
+      font-size:13px;
+      vertical-align:top;
+    }
+
+    th{
+      background:var(--section-head);
+      color:var(--muted);
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      font-weight:800;
+    }
+
+    tr:last-child td{
+      border-bottom:none;
+    }
+
+    .glossary-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-top:12px;
+    }
+
+    .info-list{
+      display:grid;
+      gap:12px;
+    }
+
+    .info-item{
+      padding-bottom:12px;
+      border-bottom:1px dashed #d8e3f0;
+    }
+
+    .info-item:last-child{
+      padding-bottom:0;
+      border-bottom:none;
+    }
+
+    .info-item strong{
+      display:block;
+      font-size:13px;
+      margin-bottom:4px;
+    }
+
+    .info-item p{
+      margin:0;
+      font-size:12px;
+      line-height:1.5;
+      color:var(--muted);
+    }
+
+    .formula-box{
+      margin-top:6px;
+      padding:8px 10px;
+      border-radius:8px;
+      background:#f8fbff;
+      border:1px solid #d9e6f5;
+      font-size:12px;
+      font-weight:700;
+      color:#28415d;
+      overflow:auto;
+    }
+
+    .sop-steps{
+      display:grid;
+      gap:10px;
+    }
+
+    .sop-step{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      padding-bottom:10px;
+      border-bottom:1px dashed #d8e3f0;
+    }
+
+    .sop-step:last-child{
+      padding-bottom:0;
+      border-bottom:none;
+    }
+
+    .sop-num{
+      width:24px;
+      height:24px;
+      border-radius:999px;
+      background:var(--primary);
+      color:#fff;
+      font-size:12px;
+      font-weight:800;
+      display:grid;
+      place-items:center;
+      flex:0 0 auto;
+      margin-top:1px;
+    }
+
+    .sop-copy strong{
+      display:block;
+      font-size:13px;
+      margin-bottom:3px;
+    }
+
+    .sop-copy p{
+      margin:0;
+      font-size:12px;
+      line-height:1.5;
+      color:var(--muted);
+    }
+
+    .tip-strip{
+      margin-top:12px;
+      padding:12px 14px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      background:#f8fbff;
+    }
+
+    .tip-strip strong{
+      display:block;
+      font-size:13px;
+      margin-bottom:4px;
+    }
+
+    .tip-strip p{
+      margin:0;
+      font-size:12px;
+      line-height:1.5;
+      color:var(--muted);
+    }
+
+    .right-card{
+      margin-bottom:12px;
+    }
+
+    .right-card:last-child{
+      margin-bottom:0;
+    }
+
+    .right-head{
+      padding:12px 14px;
+      border-bottom:1px solid var(--border);
+      background:var(--section-head);
+    }
+
+    .right-head h4{
+      margin:0;
+      font-size:14px;
+      font-weight:800;
+    }
+
+    .right-body{
+      padding:14px;
+    }
+
+    .right-body p{
+      margin:0;
+      font-size:13px;
+      line-height:1.55;
+      color:var(--muted);
+    }
+
+    .bullet-list{
+      display:grid;
+      gap:10px;
+    }
+
+    .bullet{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      font-size:13px;
+      line-height:1.45;
+      color:var(--muted);
+    }
+
+    .bullet-dot{
+      width:9px;
+      height:9px;
+      border-radius:50%;
+      margin-top:5px;
+      background:var(--primary);
+      flex:0 0 auto;
+    }
+
+    .footer-note{
+      margin-top:12px;
+      font-size:12px;
+      line-height:1.5;
+      color:var(--soft);
+    }
+
+    @media (max-width: 1280px){
+      .hero-grid{
+        grid-template-columns:repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 1120px){
+      .workspace{
+        grid-template-columns:1fr;
+      }
+      .sticky{
+        position:static;
+      }
+      .comparison-grid{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 900px){
+      .glossary-grid{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 860px){
+      .hero-grid{
+        grid-template-columns:repeat(2, 1fr);
+      }
+      .field-grid,
+      .preset-grid{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 620px){
+      .hero-grid{
+        grid-template-columns:1fr;
+      }
+
+      .scenario-controls{
+        grid-template-columns:1fr;
+      }
+
+      .bar-row{
+        grid-template-columns:1fr;
+      }
+
+      .metric .value{
+        font-size:23px;
+      }
+
+      .metric .value.sm{
+        font-size:18px;
+      }
+
+      .page-title{
+        font-size:22px;
+      }
+
+      .scroll-header{
+        align-items:flex-start;
+        flex-direction:column;
+      }
+
+      .scroll-controls{
+        align-self:flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="page-header">
+      <h1 class="page-title">Stratos Scenario Lab</h1>
+      <div class="page-subtitle">
+        Compare baseline vs scenario for volume, AHT, shrinkage, HC, SLA risk, and cost impact using the same premium light toolkit style.
+      </div>
+      <div class="top-actions">
+        <button class="btn secondary">Save Scenario</button>
+        <button class="btn secondary">Load Example</button>
+        <button class="btn secondary">Reset</button>
+        <button class="btn">Export PDF</button>
+        <button class="btn">Export PPT</button>
+      </div>
+    </div>
+
+    <section class="hero-grid">
+      <div class="hero-card primary">
+        <div class="label">Executive Summary</div>
+        <div class="metric">
+          <div class="value sm">High Risk</div>
+          <div class="delta warn">Scenario Active</div>
+        </div>
+        <div class="subtext">Demand and handling pressure are increasing required staffing while reducing projected SLA.</div>
+      </div>
+
+      <div class="hero-card">
+        <div class="label">Baseline SLA</div>
+        <div class="metric">
+          <div class="value">82.4%</div>
+          <div class="delta good">Stable</div>
+        </div>
+        <div class="subtext">Current assumptions are operating close to service target.</div>
+      </div>
+
+      <div class="hero-card">
+        <div class="label">Scenario SLA</div>
+        <div class="metric">
+          <div class="value">76.1%</div>
+          <div class="delta bad">-6.3 pts</div>
+        </div>
+        <div class="subtext">Projected service drop under scenario conditions.</div>
+      </div>
+
+      <div class="hero-card">
+        <div class="label">HC Gap</div>
+        <div class="metric">
+          <div class="value">+16</div>
+          <div class="delta bad">Required</div>
+        </div>
+        <div class="subtext">Extra productive HC needed to protect target SLA.</div>
+      </div>
+
+      <div class="hero-card">
+        <div class="label">Cost Impact</div>
+        <div class="metric">
+          <div class="value">+$35.2k</div>
+          <div class="delta bad">Monthly</div>
+        </div>
+        <div class="subtext">Estimated monthly impact if staffing is added.</div>
+      </div>
+
+      <div class="hero-card">
+        <div class="label">Recommended Action</div>
+        <div class="metric">
+          <div class="value sm">Add HC / Reduce AHT</div>
+          <div class="delta warn">Priority</div>
+        </div>
+        <div class="subtext">Best short path is to recover staffing or improve efficiency by at least 15 seconds AHT.</div>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <aside class="panel sticky">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">Scenario Configuration</h2>
+            <div class="panel-subtitle">Adjust baseline and simulate changes</div>
+          </div>
+          <button class="btn">Run</button>
+        </div>
+
+        <div class="panel-body">
+          <div class="section">
+            <div class="section-head">
+              <h4>Baseline Assumptions</h4>
+              <span>Current State</span>
+            </div>
+            <div class="section-body">
+              <div class="field-grid">
+                <div class="field">
+                  <label>Forecast Volume</label>
+                  <input type="number" value="12500">
+                  <div class="hint">Total contacts for selected planning view.</div>
+                </div>
+                <div class="field">
+                  <label>AHT (sec)</label>
+                  <input type="number" value="420">
+                  <div class="hint">Average handling time.</div>
+                </div>
+                <div class="field">
+                  <label>Shrinkage (%)</label>
+                  <input type="number" value="28">
+                  <div class="hint">Planned and unplanned loss.</div>
+                </div>
+                <div class="field">
+                  <label>Available HC</label>
+                  <input type="number" value="145">
+                  <div class="hint">Current productive headcount.</div>
+                </div>
+                <div class="field">
+                  <label>SLA Target (%)</label>
+                  <input type="number" value="80">
+                  <div class="hint">Service level goal.</div>
+                </div>
+                <div class="field">
+                  <label>Occupancy (%)</label>
+                  <input type="number" value="85">
+                  <div class="hint">Operating occupancy target.</div>
+                </div>
+                <div class="field full">
+                  <label>Planning View</label>
+                  <select>
+                    <option selected>Monthly</option>
+                    <option>Weekly</option>
+                    <option>Daily</option>
+                    <option>Interval</option>
+                  </select>
+                </div>
+                <div class="field full">
+                  <label>Cost per HC</label>
+                  <input type="number" value="2200">
+                  <div class="hint">Used for cost impact modelling.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-head">
+              <h4>Scenario Inputs</h4>
+              <span>What-If</span>
+            </div>
+            <div class="section-body">
+              <div class="scenario-row">
+                <div class="scenario-top">
+                  <div class="scenario-name">Volume</div>
+                  <div class="baseline-pill">Baseline: 12,500</div>
+                </div>
+                <div class="inline-pills">
+                  <div class="pill active">Absolute</div>
+                  <div class="pill">%</div>
+                </div>
+                <div class="scenario-controls">
+                  <input type="number" value="13500">
+                  <input type="text" value="+8.0%">
+                </div>
+              </div>
+
+              <div class="scenario-row">
+                <div class="scenario-top">
+                  <div class="scenario-name">AHT</div>
+                  <div class="baseline-pill">Baseline: 420 sec</div>
+                </div>
+                <div class="inline-pills">
+                  <div class="pill active">Absolute</div>
+                  <div class="pill">Delta</div>
+                </div>
+                <div class="scenario-controls">
+                  <input type="number" value="445">
+                  <input type="text" value="+25 sec">
+                </div>
+              </div>
+
+              <div class="scenario-row">
+                <div class="scenario-top">
+                  <div class="scenario-name">Shrinkage</div>
+                  <div class="baseline-pill">Baseline: 28%</div>
+                </div>
+                <div class="inline-pills">
+                  <div class="pill active">Absolute</div>
+                  <div class="pill">Delta</div>
+                </div>
+                <div class="scenario-controls">
+                  <input type="number" value="31">
+                  <input type="text" value="+3 pts">
+                </div>
+              </div>
+
+              <div class="scenario-row">
+                <div class="scenario-top">
+                  <div class="scenario-name">Available HC</div>
+                  <div class="baseline-pill">Baseline: 145</div>
+                </div>
+                <div class="inline-pills">
+                  <div class="pill active">Absolute</div>
+                  <div class="pill">Delta</div>
+                </div>
+                <div class="scenario-controls">
+                  <input type="number" value="145">
+                  <input type="text" value="0">
+                </div>
+              </div>
+
+              <div class="scenario-row">
+                <div class="scenario-top">
+                  <div class="scenario-name">Cost per HC</div>
+                  <div class="baseline-pill">Baseline: 2,200</div>
+                </div>
+                <div class="inline-pills">
+                  <div class="pill active">Absolute</div>
+                  <div class="pill">Delta</div>
+                </div>
+                <div class="scenario-controls">
+                  <input type="number" value="2200">
+                  <input type="text" value="0">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-head">
+              <h4>Quick Scenario Presets</h4>
+              <span>Fast Start</span>
+            </div>
+            <div class="section-body">
+              <div class="preset-grid">
+                <div class="preset">
+                  <strong>Demand Spike</strong>
+                  <span>Volume +12% while HC remains fixed.</span>
+                </div>
+                <div class="preset">
+                  <strong>AHT Increase</strong>
+                  <span>AHT +25 sec from process complexity.</span>
+                </div>
+                <div class="preset">
+                  <strong>Shrinkage Shock</strong>
+                  <span>Shrinkage +5 pts due to absenteeism.</span>
+                </div>
+                <div class="preset">
+                  <strong>Understaffing</strong>
+                  <span>Reduce available HC and test risk.</span>
+                </div>
+                <div class="preset">
+                  <strong>Efficiency Gain</strong>
+                  <span>AHT -15 sec and shrinkage -2 pts.</span>
+                </div>
+                <div class="preset">
+                  <strong>Hiring Boost</strong>
+                  <span>Add productive HC to recover SLA.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="section-head">
+              <h4>Simulation Setup</h4>
+              <span>Config</span>
+            </div>
+            <div class="section-body">
+              <div class="field-grid">
+                <div class="field full">
+                  <label>Calculation Mode</label>
+                  <select>
+                    <option selected>Compare Baseline vs Scenario</option>
+                    <option>HC Impact</option>
+                    <option>SLA Impact</option>
+                    <option>Cost Impact</option>
+                  </select>
+                </div>
+                <div class="field full">
+                  <label>Risk Sensitivity</label>
+                  <select>
+                    <option>Conservative</option>
+                    <option selected>Standard</option>
+                    <option>Aggressive</option>
+                  </select>
+                </div>
+                <div class="field full">
+                  <label>Compare Against</label>
+                  <select>
+                    <option selected>Baseline</option>
+                    <option>Target</option>
+                    <option>Budget</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="stack-actions">
+                <button class="btn">Run Simulation</button>
+                <button class="btn secondary">Swap Baseline & Scenario</button>
+                <button class="btn secondary">Duplicate Scenario</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">Impact Overview</h2>
+            <div class="panel-subtitle">Baseline vs scenario in premium comparison layout</div>
+          </div>
+          <div class="chip-row">
+            <div class="chip">Baseline Active</div>
+            <div class="chip">Scenario #1</div>
+            <div class="chip">Executive View</div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="comparison-grid">
+            <section class="compare-card">
+              <div class="compare-head">
+                <h3>Baseline</h3>
+                <div class="status-badge">Current Plan</div>
+              </div>
+              <div class="metric-list">
+                <div class="metric-row">
+                  <div class="metric-name">Volume</div>
+                  <div class="metric-val">12,500</div>
+                </div>
+                <div class="metric-row">
+                  <div class="metric-name">AHT</div>
+                  <div class="metric-val">420 sec</div>
+                </div>
+                <div class="metric-row">
+                  <div class="metric-name">Shrinkage</div>
+                  <div class="metric-val">28%</div>
+                </div>
+                <div class="metric-row">
+                  <div class="metric-name">Available HC</div>
+                  <div class="metric-val">145</div>
+                </div>
+                <div class="metric-row">
+                  <div class="metric-name">Required HC</div>
+                  <div class="metric-val">152</div>
+                </div>
+                <div class="metric-row">
+                  <div class="metric-name">Estimated SLA</div>
+                  <div class="metric-val">82.4%</div>
+                </div>
+                <div class="metric-row">
+                  <div class="metric-name">Monthly Cost</div>
+                  <div class="metric-val">$319,000</div>
+                </div>
+              </div>
+            </section>
+
+            <section class="compare-card">
+              <div class="compare-head">
+                <h3>Scenario</h3>
+                <div class="status-badge">Projected</div>
+              </div>
+              <div class="metric-list">
+                <div class="metric-row">
+                  <div class="metric-name">Volume</div>
+                  <div class="metric-val">13,500 <span class="mini-delta bad">+8.0%</span></div>
+                </div>
+                <div class="metric-row">
+                  <div class="metric-name">AHT</div>
+                  <div class="metric-val">445 sec <span class="mini-delta bad">+25 sec</span></div>
+                </div>
+                <div class="metric-row">
+                  <div class="metric-name">Shrinkage</div>
+                  <div class="metric-val">31% <span class="mini-delta bad">+3 pts</span></div>
+                </div>
+                <div class="metric-row">
+                  <div class="metric-name">Available HC</div>
+                  <div class="metric-val">145 <span class="mini-delta warn">0</span></div>
+                </div>
+                <div class="metric-row">
+                  <div class="metric-name">Required HC</div>
+                  <div class="metric-val">168 <span class="mini-delta bad">+16</span></div>
+                </div>
+                <div class="metric-row">
+                  <div class="metric-name">Estimated SLA</div>
+                  <div class="metric-val">76.1% <span class="mini-delta bad">-6.3 pts</span></div>
+                </div>
+                <div class="metric-row">
+                  <div class="metric-name">Monthly Cost</div>
+                  <div class="metric-val">$354,200 <span class="mini-delta bad">+$35.2k</span></div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div class="scroll-section">
+            <div class="scroll-header">
+              <div class="scroll-hint">Scroll horizontally to view all KPI cards</div>
+              <div class="scroll-controls">
+                <button class="scroll-btn" data-target="impactScroll" data-dir="-1" aria-label="Scroll KPI cards left">‹</button>
+                <button class="scroll-btn" data-target="impactScroll" data-dir="1" aria-label="Scroll KPI cards right">›</button>
+              </div>
+            </div>
+
+            <div class="scroll-track" id="impactScroll">
+              <div class="impact-grid">
+                <div class="impact-card">
+                  <div class="label">HC Needed</div>
+                  <div class="big">168</div>
+                  <div class="small">Projected required HC under scenario assumptions.</div>
+                </div>
+                <div class="impact-card">
+                  <div class="label">HC Gap</div>
+                  <div class="big">+16</div>
+                  <div class="small">Additional productive HC needed to defend service target.</div>
+                </div>
+                <div class="impact-card">
+                  <div class="label">SLA Change</div>
+                  <div class="big">-6.3 pts</div>
+                  <div class="small">Service deterioration versus baseline.</div>
+                </div>
+                <div class="impact-card">
+                  <div class="label">Cost Change</div>
+                  <div class="big">+$35.2k</div>
+                  <div class="small">Projected cost increase if staffing is added.</div>
+                </div>
+                <div class="impact-card">
+                  <div class="label">Utilization Impact</div>
+                  <div class="big">+4.8%</div>
+                  <div class="small">Pressure on operating occupancy and buffer.</div>
+                </div>
+                <div class="impact-card">
+                  <div class="label">Risk Score</div>
+                  <div class="big">78 / 100</div>
+                  <div class="small">High operating risk from demand-capacity mismatch.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="scroll-section">
+            <div class="scroll-header">
+              <div class="scroll-hint">Scroll horizontally to view all charts</div>
+              <div class="scroll-controls">
+                <button class="scroll-btn" data-target="chartScroll" data-dir="-1" aria-label="Scroll charts left">‹</button>
+                <button class="scroll-btn" data-target="chartScroll" data-dir="1" aria-label="Scroll charts right">›</button>
+              </div>
+            </div>
+
+            <div class="scroll-track" id="chartScroll">
+              <div class="chart-grid">
+                <section class="chart-card wide">
+                  <div class="chart-head">
+                    <h3>Driver Waterfall</h3>
+                    <div class="status-badge">Pressure View</div>
+                  </div>
+                  <div class="chart-body">
+                    <div class="waterfall">
+                      <div class="wf-col">
+                        <div class="wf-value">82.4%</div>
+                        <div class="wf-bar-wrap"><div class="wf-bar" style="height:108px;"></div></div>
+                        <div class="wf-label">Baseline SLA</div>
+                      </div>
+                      <div class="wf-col">
+                        <div class="wf-value">-2.4</div>
+                        <div class="wf-bar-wrap"><div class="wf-bar negative" style="height:64px;"></div></div>
+                        <div class="wf-label">Volume Effect</div>
+                      </div>
+                      <div class="wf-col">
+                        <div class="wf-value">-1.8</div>
+                        <div class="wf-bar-wrap"><div class="wf-bar negative" style="height:48px;"></div></div>
+                        <div class="wf-label">AHT Effect</div>
+                      </div>
+                      <div class="wf-col">
+                        <div class="wf-value">-2.1</div>
+                        <div class="wf-bar-wrap"><div class="wf-bar negative" style="height:56px;"></div></div>
+                        <div class="wf-label">Shrinkage Effect</div>
+                      </div>
+                      <div class="wf-col">
+                        <div class="wf-value">+0.0</div>
+                        <div class="wf-bar-wrap"><div class="wf-bar warning" style="height:10px;"></div></div>
+                        <div class="wf-label">HC Offset</div>
+                      </div>
+                      <div class="wf-col">
+                        <div class="wf-value">76.1%</div>
+                        <div class="wf-bar-wrap"><div class="wf-bar warning" style="height:86px;"></div></div>
+                        <div class="wf-label">Scenario SLA</div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="chart-card medium">
+                  <div class="chart-head">
+                    <h3>Required HC Comparison</h3>
+                    <div class="status-badge">Headcount</div>
+                  </div>
+                  <div class="chart-body">
+                    <div class="bar-chart">
+                      <div class="bar-row">
+                        <label>Baseline HC</label>
+                        <div class="bar-track"><div class="bar-fill alt" style="width:81%;"></div></div>
+                        <div class="bar-val">152</div>
+                      </div>
+                      <div class="bar-row">
+                        <label>Scenario HC</label>
+                        <div class="bar-track"><div class="bar-fill" style="width:90%;"></div></div>
+                        <div class="bar-val">168</div>
+                      </div>
+                      <div class="bar-row">
+                        <label>Available HC</label>
+                        <div class="bar-track"><div class="bar-fill warn" style="width:78%;"></div></div>
+                        <div class="bar-val">145</div>
+                      </div>
+                      <div class="bar-row">
+                        <label>HC Gap</label>
+                        <div class="bar-track"><div class="bar-fill" style="width:16%;"></div></div>
+                        <div class="bar-val">16</div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="chart-card gauge-card">
+                  <div class="chart-head">
+                    <h3>SLA Risk Meter</h3>
+                    <div class="status-badge">High Risk</div>
+                  </div>
+                  <div class="chart-body">
+                    <div class="gauge-wrap">
+                      <div class="gauge-box">
+                        <div class="gauge"></div>
+                        <div class="gauge-hole"></div>
+                        <div class="needle"></div>
+                        <div class="gauge-center">
+                          <div>
+                            <div class="gauge-value">76.1%</div>
+                            <div class="gauge-text">Projected Scenario SLA</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+
+          <section class="sensitivity-card">
+            <div class="chart-head">
+              <h3>Sensitivity Explorer</h3>
+              <div class="status-badge">Decision Support</div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Adjustment</th>
+                    <th>Projected Impact</th>
+                    <th>Operational Readout</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>AHT improves by 10 sec</td>
+                    <td>HC gap reduces from +16 to +11</td>
+                    <td>Partial recovery without full hiring need</td>
+                  </tr>
+                  <tr>
+                    <td>Shrinkage improves by 2 pts</td>
+                    <td>SLA improves from 76.1% to 79.3%</td>
+                    <td>Closer to target but still exposed</td>
+                  </tr>
+                  <tr>
+                    <td>Add 8 productive HC</td>
+                    <td>SLA improves to 81.2%</td>
+                    <td>Fastest direct route to service recovery</td>
+                  </tr>
+                  <tr>
+                    <td>Volume reduces by 5%</td>
+                    <td>Cost need drops by about $9.4k</td>
+                    <td>Lower pressure and lower service risk</td>
+                  </tr>
+                  <tr>
+                    <td>AHT improves 15 sec and add 5 HC</td>
+                    <td>Scenario returns close to baseline</td>
+                    <td>Balanced cost and operations approach</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <div class="glossary-grid">
+            <section class="info-card">
+              <div class="info-head">
+                <h3>Formula Glossary</h3>
+                <div class="status-badge">Reference</div>
+              </div>
+              <div class="info-body">
+                <div class="info-list">
+                  <div class="info-item">
+                    <strong>Workload Hours</strong>
+                    <p>Total demand converted into handling hours based on forecasted volume and AHT.</p>
+                    <div class="formula-box">Workload Hours = (Volume × AHT in seconds) ÷ 3600</div>
+                  </div>
+
+                  <div class="info-item">
+                    <strong>Net Productive Factor</strong>
+                    <p>Represents the portion of paid time available for productive work after shrinkage.</p>
+                    <div class="formula-box">Net Productive Factor = 1 - Shrinkage %</div>
+                  </div>
+
+                  <div class="info-item">
+                    <strong>Required HC</strong>
+                    <p>Estimated headcount needed to support the workload after shrinkage and operating assumptions.</p>
+                    <div class="formula-box">Required HC = Workload Requirement ÷ Net Productive Capacity per HC</div>
+                  </div>
+
+                  <div class="info-item">
+                    <strong>HC Gap</strong>
+                    <p>Difference between required HC and currently available productive HC.</p>
+                    <div class="formula-box">HC Gap = Required HC - Available HC</div>
+                  </div>
+
+                  <div class="info-item">
+                    <strong>Cost Impact</strong>
+                    <p>Estimated additional cost if extra HC is needed to close the staffing gap.</p>
+                    <div class="formula-box">Cost Impact = HC Gap × Cost per HC</div>
+                  </div>
+
+                  <div class="info-item">
+                    <strong>SLA Risk</strong>
+                    <p>An indicative output showing how far the scenario may move away from the target service level.</p>
+                    <div class="formula-box">SLA Risk = function of demand pressure, HC gap, shrinkage, and AHT change</div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="info-card">
+              <div class="info-head">
+                <h3>How to Use / SOP</h3>
+                <div class="status-badge">User Guide</div>
+              </div>
+              <div class="info-body">
+                <div class="sop-steps">
+                  <div class="sop-step">
+                    <div class="sop-num">1</div>
+                    <div class="sop-copy">
+                      <strong>Set Baseline Assumptions</strong>
+                      <p>Enter your current volume, AHT, shrinkage, available HC, SLA target, occupancy, and cost per HC. This becomes the reference state.</p>
+                    </div>
+                  </div>
+
+                  <div class="sop-step">
+                    <div class="sop-num">2</div>
+                    <div class="sop-copy">
+                      <strong>Adjust Scenario Inputs</strong>
+                      <p>Update one or more drivers such as volume, AHT, shrinkage, available HC, or cost per HC to model the future state.</p>
+                    </div>
+                  </div>
+
+                  <div class="sop-step">
+                    <div class="sop-num">3</div>
+                    <div class="sop-copy">
+                      <strong>Run Simulation</strong>
+                      <p>Use the Run button to compare baseline and scenario and review changes in required HC, SLA risk, utilization, and cost impact.</p>
+                    </div>
+                  </div>
+
+                  <div class="sop-step">
+                    <div class="sop-num">4</div>
+                    <div class="sop-copy">
+                      <strong>Review Decision Outputs</strong>
+                      <p>Use the KPI cards, waterfall, HC comparison, and SLA risk meter to understand what is driving operational pressure.</p>
+                    </div>
+                  </div>
+
+                  <div class="sop-step">
+                    <div class="sop-num">5</div>
+                    <div class="sop-copy">
+                      <strong>Check Sensitivity Explorer</strong>
+                      <p>Review improvement levers such as lowering AHT, reducing shrinkage, or adding HC to identify the best recovery option.</p>
+                    </div>
+                  </div>
+
+                  <div class="sop-step">
+                    <div class="sop-num">6</div>
+                    <div class="sop-copy">
+                      <strong>Save or Export</strong>
+                      <p>Once the scenario is validated, save it for future comparison or export the view for leadership discussion and planning alignment.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tip-strip">
+                  <strong>Input Guidance</strong>
+                  <p>
+                    Use the same unit consistently across the dashboard. Volume should reflect the selected planning view, AHT should be entered in seconds, shrinkage should be entered as a percentage, and available HC should reflect productive headcount only.
+                  </p>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div class="footer-note">
+            This version includes premium horizontal scroll controls, drag-to-scroll, fixed-width KPI cards, fixed-width chart cards, and a formula glossary with SOP guidance so users can understand the dashboard and enter inputs correctly.
+          </div>
+        </div>
+      </main>
+
+      <aside class="panel sticky">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">Executive Insights</h2>
+            <div class="panel-subtitle">Decision commentary and action guidance</div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <section class="right-card">
+            <div class="right-head"><h4>Scenario Summary</h4></div>
+            <div class="right-body">
+              <p>
+                The current scenario increases workload demand while effective capacity stays constrained. Required HC rises from 152 to 168, pulling projected SLA down from 82.4% to 76.1%. This creates a high service risk and material monthly cost exposure if target performance must be protected.
+              </p>
+            </div>
+          </section>
+
+          <section class="right-card">
+            <div class="right-head"><h4>Key Drivers</h4></div>
+            <div class="right-body">
+              <div class="bullet-list">
+                <div class="bullet"><span class="bullet-dot"></span><span>Volume increase is the strongest driver of staffing pressure.</span></div>
+                <div class="bullet"><span class="bullet-dot"></span><span>Higher AHT compounds workload intensity and reduces throughput.</span></div>
+                <div class="bullet"><span class="bullet-dot"></span><span>Shrinkage above 30% leaves limited recovery room for service stability.</span></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="right-card">
+            <div class="right-head"><h4>Recommended Actions</h4></div>
+            <div class="right-body">
+              <div class="bullet-list">
+                <div class="bullet"><span class="bullet-dot"></span><span>Add 12 to 16 productive HC if target SLA must be maintained.</span></div>
+                <div class="bullet"><span class="bullet-dot"></span><span>Reduce AHT by at least 15 seconds through coaching or process improvement.</span></div>
+                <div class="bullet"><span class="bullet-dot"></span><span>Contain shrinkage below 29% to protect available capacity.</span></div>
+                <div class="bullet"><span class="bullet-dot"></span><span>Use overtime as short-term containment only.</span></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="right-card">
+            <div class="right-head"><h4>Decision Notes</h4></div>
+            <div class="right-body">
+              <div class="chip-row" style="margin-bottom:12px;">
+                <div class="chip">High Service Risk</div>
+                <div class="chip">Staffing Shortfall</div>
+                <div class="chip">Cost Exposure</div>
+              </div>
+              <p>
+                Best balanced option is a mixed strategy: recover part of the HC gap while improving efficiency, instead of solving the full need through hiring alone.
+              </p>
+            </div>
+          </section>
+
+          <section class="right-card">
+            <div class="right-head"><h4>Assumptions</h4></div>
+            <div class="right-body">
+              <p>
+                Values shown here are sample numbers for UI preview. Final production build can connect to your actual WFM formulas, interval logic, scenario presets, and export engine.
+              </p>
+            </div>
+          </section>
+        </div>
+      </aside>
+    </section>
+  </div>
+
+  <script>
+    document.querySelectorAll('.pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        const group = pill.parentElement;
+        group.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+      });
+    });
+
+    document.querySelectorAll('.preset').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.preset').forEach(p => {
+          p.style.borderColor = 'var(--border)';
+          p.style.background = '#fff';
+        });
+        card.style.borderColor = '#9ec0fb';
+        card.style.background = '#f7fbff';
+      });
+    });
+
+    function setupScrollTrack(trackId) {
+      const track = document.getElementById(trackId);
+      const buttons = document.querySelectorAll(`.scroll-btn[data-target="${trackId}"]`);
+      const scrollAmount = 260;
+
+      function updateButtons() {
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        buttons.forEach(btn => {
+          const dir = Number(btn.dataset.dir);
+          if (dir < 0) btn.disabled = track.scrollLeft <= 2;
+          if (dir > 0) btn.disabled = track.scrollLeft >= maxScroll - 2;
+        });
+      }
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const dir = Number(btn.dataset.dir);
+          track.scrollBy({ left: dir * scrollAmount, behavior: 'smooth' });
+        });
+      });
+
+      let isDown = false;
+      let startX = 0;
+      let scrollLeft = 0;
+
+      track.addEventListener('mousedown', (e) => {
+        isDown = true;
+        track.classList.add('dragging');
+        startX = e.pageX - track.offsetLeft;
+        scrollLeft = track.scrollLeft;
+      });
+
+      track.addEventListener('mouseleave', () => {
+        isDown = false;
+        track.classList.remove('dragging');
+      });
+
+      track.addEventListener('mouseup', () => {
+        isDown = false;
+        track.classList.remove('dragging');
+      });
+
+      track.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - track.offsetLeft;
+        const walk = (x - startX) * 1.2;
+        track.scrollLeft = scrollLeft - walk;
+      });
+
+      track.addEventListener('scroll', updateButtons);
+      window.addEventListener('resize', updateButtons);
+      updateButtons();
+    }
+
+    setupScrollTrack('impactScroll');
+    setupScrollTrack('chartScroll');
+  </script>
+</body>
+</html>
